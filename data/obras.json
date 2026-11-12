@@ -1,0 +1,14 @@
+[
+  {
+    "id": "demo-mindar",
+    "targetIndex": 0,
+    "titulo": "Tarjeta de demostración",
+    "artista": "Ejemplo oficial de MindAR",
+    "anio": "Demostración",
+    "tecnica": "Imagen de prueba",
+    "tipo": "Target de prueba",
+    "ubicacion": "Prototipo WebAR",
+    "descripcion": "Esta ficha confirma que el reconocimiento de imagen y el panel informativo están conectados. Se sustituirá por la información verificada de una obra del CCU BUAP.",
+    "historia": "No corresponde a una obra del CCU BUAP."
+  }
+]
