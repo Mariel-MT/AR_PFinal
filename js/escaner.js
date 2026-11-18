@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function normalize(text) {
-    return text.toLowerCase()
+    return String(text).toLowerCase()
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/[^a-z0-9 ]/g, " ")
@@ -31,9 +31,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
       if (saved && Array.isArray(saved.completed)) {
-        return [...new Set(saved.completed.filter(
-          n => Number.isInteger(n) && n >= 0 && n < 5
-        ))];
+        return [...new Set(
+          saved.completed.filter(
+            n => Number.isInteger(n) && n >= 0 && n < 5
+          )
+        )];
       }
     } catch (error) {
       console.error("No se pudo leer el progreso:", error);
@@ -49,9 +51,43 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
   }
 
-  function showFicha(obra) {
+  function isUnlocked(index, completed) {
+    if (index === 0) return true;
 
-    currentTarget = obra.targetIndex;
+    for (let i = 0; i < index; i++) {
+      if (!completed.includes(i)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  function showLockedMessage() {
+
+    missionPanel.hidden = false;
+    missionPanel.replaceChildren();
+
+    const heading = document.createElement("p");
+    heading.className = "card-eyebrow";
+    heading.textContent = "LOS GUARDIANES DEL ARTE";
+
+    const title = document.createElement("h2");
+    title.textContent = "✧ Obra desconocida";
+
+    const message = document.createElement("p");
+    message.className = "mission-locked";
+    message.textContent =
+      "Esta obra aún es un secreto. Completa las misiones anteriores para descubrirla.";
+
+    missionPanel.append(heading, title, message);
+
+    card.classList.remove("hidden");
+
+    setStatus("Has encontrado una obra misteriosa...");
+  }
+
+  function showFicha(obra) {
 
     document.getElementById("art-title").textContent =
       obra.titulo || "Obra sin título";
@@ -89,7 +125,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const completed = loadProgress();
     const index = obra.missionIndex;
     const alreadyCompleted = completed.includes(index);
-    const unlocked = index === 0 || completed.includes(index - 1);
 
     missionPanel.hidden = false;
     missionPanel.replaceChildren();
@@ -104,20 +139,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     missionPanel.append(heading, title);
 
     if (alreadyCompleted) {
+
       const message = document.createElement("p");
       message.className = "mission-feedback success";
       message.textContent =
         "✧ ¡Ya conseguiste este fragmento de la Esencia Creativa!";
-
-      missionPanel.append(message);
-      return;
-    }
-
-    if (!unlocked) {
-      const message = document.createElement("p");
-      message.className = "mission-locked";
-      message.textContent =
-        "Esta misión todavía está bloqueada. Completa primero las misiones anteriores.";
 
       missionPanel.append(message);
       return;
@@ -167,7 +193,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
       }
 
-      const validAnswers = obra.respuestas.map(normalize);
+      const validAnswers = (obra.respuestas || []).map(normalize);
 
       if (validAnswers.includes(response)) {
 
@@ -199,6 +225,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
       } else {
+
         feedback.textContent =
           "Esa respuesta no es correcta. Revisa la pista e inténtalo de nuevo.";
 
@@ -208,10 +235,27 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function hideFicha() {
+
     card.classList.add("hidden");
     missionPanel.hidden = true;
     currentTarget = null;
+
     setStatus("Busca una obra para escanear");
+  }
+
+  function handleTargetFound(obra) {
+
+    currentTarget = obra.targetIndex;
+
+    const completed = loadProgress();
+    const unlocked = isUnlocked(obra.missionIndex, completed);
+
+    if (!unlocked) {
+      showLockedMessage();
+      return;
+    }
+
+    showFicha(obra);
   }
 
   try {
@@ -229,6 +273,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
   } catch (error) {
+
     console.error(error);
     setStatus("Error al cargar las fichas. Recarga la página.");
     return;
@@ -247,7 +292,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     target.addEventListener("targetFound", () => {
-      showFicha(obra);
+      handleTargetFound(obra);
     });
 
     target.addEventListener("targetLost", () => {
