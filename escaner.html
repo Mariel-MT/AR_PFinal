@@ -82,13 +82,13 @@
   <!-- A-Frame -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 
-  <!-- Soporte para animaciones de modelos GLB -->
+  <!-- Animaciones de modelos 3D -->
   <script src="https://cdn.jsdelivr.net/npm/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
 
   <!-- MindAR -->
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
-  <!-- Lógica del escáner -->
+  <!-- JavaScript del escáner -->
   <script src="js/escaner.js" defer></script>
 </head>
 
@@ -116,7 +116,9 @@
     <p>Centra la imagen de la obra dentro del marco</p>
   </div>
 
+  <!-- FICHA DE LA OBRA -->
   <section class="art-card hidden" id="art-card" aria-live="polite">
+
     <button class="close-card" id="close-card" aria-label="Cerrar ficha">×</button>
 
     <p class="card-eyebrow">OBRA RECONOCIDA</p>
@@ -141,15 +143,18 @@
     <a class="adventure-link" href="aventura.html">
       Ver mi progreso en la aventura →
     </a>
+
   </section>
 
   <div class="scanner-bottom">
     <p>La cámara solo se activa mientras utilizas el escáner.</p>
+
     <button id="retry-button" class="retry-button" type="button">
       Reiniciar escáner
     </button>
   </div>
 
+  <!-- ESCENA DE REALIDAD AUMENTADA -->
   <a-scene
     id="ar-scene"
     mindar-image="imageTargetSrc: targets/obras.mind; autoStart: true; uiLoading: no; uiScanning: no; uiError: no; maxTrack: 1"
@@ -163,8 +168,13 @@
       look-controls="enabled: false">
     </a-camera>
 
+    <!-- ================================= -->
     <!-- TARGET 0: LA BAILARINA -->
-    <a-entity mindar-image-target="targetIndex: 0" data-target-index="0">
+    <!-- ================================= -->
+
+    <a-entity
+      mindar-image-target="targetIndex: 0"
+      data-target-index="0">
 
       <a-entity
         id="pet-0"
@@ -173,21 +183,28 @@
         scale="0.001 0.001 0.001"
         animation__appear="property: scale; from: 0.001 0.001 0.001; to: 0.18 0.18 0.18; dur: 700; easing: easeOutBack; startEvents: pet-appear">
 
-        <a-entity
-          gltf-model="url(pet.glb)"
-          animation-mixer="clip: *; loop: repeat">
-        </a-entity>
-
+        <!-- Movimiento de flotación -->
         <a-entity
           position="0 0.03 0"
           animation__float="property: position; from: 0 0.03 0; to: 0 0.10 0; dur: 1800; dir: alternate; loop: true; easing: easeInOutSine">
+
+          <!-- Mascota 3D -->
+          <a-entity
+            gltf-model="url(pet.glb)"
+            animation-mixer="clip: *; loop: repeat">
+          </a-entity>
+
         </a-entity>
       </a-entity>
-
     </a-entity>
 
+    <!-- ================================= -->
     <!-- TARGET 1: LA LIBÉLULA -->
-    <a-entity mindar-image-target="targetIndex: 1" data-target-index="1">
+    <!-- ================================= -->
+
+    <a-entity
+      mindar-image-target="targetIndex: 1"
+      data-target-index="1">
 
       <a-entity
         id="pet-1"
@@ -197,20 +214,25 @@
         animation__appear="property: scale; from: 0.001 0.001 0.001; to: 0.18 0.18 0.18; dur: 700; easing: easeOutBack; startEvents: pet-appear">
 
         <a-entity
-          gltf-model="url(pet.glb)"
-          animation-mixer="clip: *; loop: repeat">
-        </a-entity>
-
-        <a-entity
           position="0 0.03 0"
           animation__float="property: position; from: 0 0.03 0; to: 0 0.10 0; dur: 1800; dir: alternate; loop: true; easing: easeInOutSine">
+
+          <a-entity
+            gltf-model="url(pet.glb)"
+            animation-mixer="clip: *; loop: repeat">
+          </a-entity>
+
         </a-entity>
       </a-entity>
-
     </a-entity>
 
+    <!-- ================================= -->
     <!-- TARGET 2: GARDEN BUTTERFLY -->
-    <a-entity mindar-image-target="targetIndex: 2" data-target-index="2">
+    <!-- ================================= -->
+
+    <a-entity
+      mindar-image-target="targetIndex: 2"
+      data-target-index="2">
 
       <a-entity
         id="pet-2"
@@ -220,20 +242,25 @@
         animation__appear="property: scale; from: 0.001 0.001 0.001; to: 0.18 0.18 0.18; dur: 700; easing: easeOutBack; startEvents: pet-appear">
 
         <a-entity
-          gltf-model="url(pet.glb)"
-          animation-mixer="clip: *; loop: repeat">
-        </a-entity>
-
-        <a-entity
           position="0 0.03 0"
           animation__float="property: position; from: 0 0.03 0; to: 0 0.10 0; dur: 1800; dir: alternate; loop: true; easing: easeInOutSine">
+
+          <a-entity
+            gltf-model="url(pet.glb)"
+            animation-mixer="clip: *; loop: repeat">
+          </a-entity>
+
         </a-entity>
       </a-entity>
-
     </a-entity>
 
+    <!-- ================================= -->
     <!-- TARGET 3: EL TIEMPO -->
-    <a-entity mindar-image-target="targetIndex: 3" data-target-index="3">
+    <!-- ================================= -->
+
+    <a-entity
+      mindar-image-target="targetIndex: 3"
+      data-target-index="3">
 
       <a-entity
         id="pet-3"
@@ -243,20 +270,25 @@
         animation__appear="property: scale; from: 0.001 0.001 0.001; to: 0.18 0.18 0.18; dur: 700; easing: easeOutBack; startEvents: pet-appear">
 
         <a-entity
-          gltf-model="url(pet.glb)"
-          animation-mixer="clip: *; loop: repeat">
-        </a-entity>
-
-        <a-entity
           position="0 0.03 0"
           animation__float="property: position; from: 0 0.03 0; to: 0 0.10 0; dur: 1800; dir: alternate; loop: true; easing: easeInOutSine">
+
+          <a-entity
+            gltf-model="url(pet.glb)"
+            animation-mixer="clip: *; loop: repeat">
+          </a-entity>
+
         </a-entity>
       </a-entity>
-
     </a-entity>
 
+    <!-- ================================= -->
     <!-- TARGET 4: EL VIGILANTE -->
-    <a-entity mindar-image-target="targetIndex: 4" data-target-index="4">
+    <!-- ================================= -->
+
+    <a-entity
+      mindar-image-target="targetIndex: 4"
+      data-target-index="4">
 
       <a-entity
         id="pet-4"
@@ -266,16 +298,16 @@
         animation__appear="property: scale; from: 0.001 0.001 0.001; to: 0.18 0.18 0.18; dur: 700; easing: easeOutBack; startEvents: pet-appear">
 
         <a-entity
-          gltf-model="url(pet.glb)"
-          animation-mixer="clip: *; loop: repeat">
-        </a-entity>
-
-        <a-entity
           position="0 0.03 0"
           animation__float="property: position; from: 0 0.03 0; to: 0 0.10 0; dur: 1800; dir: alternate; loop: true; easing: easeInOutSine">
+
+          <a-entity
+            gltf-model="url(pet.glb)"
+            animation-mixer="clip: *; loop: repeat">
+          </a-entity>
+
         </a-entity>
       </a-entity>
-
     </a-entity>
 
   </a-scene>
