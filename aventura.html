@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#faf8fc">
 <title>Los guardianes del arte | CCU BUAP</title>
 <link rel="stylesheet" href="css/estilos.css">
 
@@ -50,7 +51,7 @@
   width: 0%;
   height: 100%;
   background: linear-gradient(90deg,#6d3ca0,#d5a34e);
-  transition: width .3s;
+  transition: width .4s;
 }
 
 .progress-info {
@@ -99,23 +100,27 @@
 }
 
 .mission {
+  position: relative;
   background: white;
   border: 1px solid #e9e1ef;
   border-radius: 18px;
   padding: 22px;
+  overflow: hidden;
 }
 
 .mission.locked {
-  opacity: .5;
-  background: #f7f5f8;
+  background: #f5f2f7;
+  border-style: dashed;
+  border-color: #d8cddd;
 }
 
 .mission.completed {
   border-color: #a9d5b5;
+  background: #fbfffc;
 }
 
 .mission h3 {
-  font-size: 25px;
+  font-size: 23px;
   margin: 10px 0;
 }
 
@@ -134,66 +139,55 @@
   font-weight: bold;
 }
 
-.detail {
-  display: none;
-  border-top: 1px solid #e9e1ef;
-  margin-top: 18px;
-  padding-top: 18px;
+.mission-unknown {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  min-height: 105px;
 }
 
-.detail.open { display: block; }
-
-.riddle {
-  padding: 17px;
-  background: #fbf7ee;
-  border-left: 4px solid #d5a34e;
-  border-radius: 0 12px 12px 0;
-  line-height: 1.8;
-  font-family: Georgia,serif;
+.mystery-symbol {
+  width: 78px;
+  height: 78px;
+  flex-shrink: 0;
+  border-radius: 18px;
+  background: linear-gradient(145deg,#e8dfef,#d5c6e2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px;
+  color: #6d3ca0;
 }
 
-.hint {
+.mission-unknown h3 {
+  color: #746b7d;
+  font-size: 21px;
+}
+
+.mission-unknown p {
   color: #746b7d;
   font-size: 13px;
+  line-height: 1.5;
 }
 
-.answer {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.answer input {
-  flex: 1;
-  min-width: 150px;
-  padding: 12px;
-  border: 1px solid #d9cfdf;
-  border-radius: 25px;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  border-radius: 25px;
+.mission-button {
+  display: inline-block;
+  margin-top: 15px;
   padding: 11px 17px;
+  border-radius: 25px;
   background: #6d3ca0;
   color: white;
-  font-weight: bold;
-}
-
-button:disabled {
-  background: #b8afbf;
-  cursor: not-allowed;
-}
-
-.feedback {
-  min-height: 22px;
+  text-decoration: none;
   font-size: 13px;
   font-weight: bold;
 }
 
-.success { color: #287342; }
-.error { color: #a33d55; }
+.mission-button:hover { background: #513078; }
+
+.mission-button.disabled {
+  background: #b8afbf;
+  pointer-events: none;
+}
 
 .final {
   display: none;
@@ -217,12 +211,32 @@ button:disabled {
   color: #746b7d;
   border: 1px solid #cfc3d8;
   font-size: 12px;
+  cursor: pointer;
+  border-radius: 25px;
+  padding: 10px 15px;
+}
+
+.scanner-cta {
+  display: inline-block;
+  background: #6d3ca0;
+  color: white;
+  padding: 13px 22px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.empty-message {
+  padding: 20px;
+  background: #f7f3fa;
+  border-radius: 14px;
+  color: #746b7d;
 }
 
 @media(max-width:700px) {
   .missions { grid-template-columns: 1fr; }
   .fragments { grid-template-columns: repeat(2,1fr); }
-  .answer { flex-direction: column; }
 }
 </style>
 </head>
@@ -250,18 +264,19 @@ button:disabled {
   <h1>La búsqueda de la<br><em>Esencia Creativa.</em></h1>
   <p>
     Cinco fragmentos se han perdido entre las obras del CCU.
-    Resuelve sus acertijos, descubre sus secretos y encuentra
+    Sigue las pistas, descubre sus secretos y encuentra
     el destino final de esta aventura.
   </p>
 </section>
 
 <section class="intro">
   <p class="eyebrow">TU DIARIO DE EXPLORADOR</p>
-  <h2>Una colección por completar ✧</h2>
+  <h2>Una aventura llena de secretos ✧</h2>
   <p>
-    Completa las cinco misiones en orden.
-    Cada acertijo te revelará la siguiente escultura.
-    Tu progreso se guarda automáticamente.
+    Cada escultura guarda una pista. Escanea las obras en el CCU,
+    resuelve sus acertijos y descubre nuevos secretos.
+    Las siguientes misiones permanecerán ocultas hasta que
+    completes la anterior.
   </p>
 </section>
 
@@ -316,153 +331,14 @@ button:disabled {
 
 <section>
   <p class="eyebrow">EL RECORRIDO</p>
-  <h2>Las cinco misiones</h2>
-  <p>Resuelve cada acertijo para desbloquear la siguiente misión.</p>
+  <h2>Los secretos del CCU</h2>
+  <p>
+    Algunas identidades todavía están ocultas.
+    Completa cada misión para revelar el siguiente secreto.
+  </p>
 
-  <div class="missions">
-
-    <!-- MISIÓN 1 -->
-    <article class="mission" data-mission="0">
-      <p class="eyebrow">MISIÓN 01 · IMAGINACIÓN</p>
-      <h3>La bailarina</h3>
-      <p class="meta">
-        Autor: Jorge Peña<br>
-        Año: 2010<br>
-        Técnica: Bronce mediante vaciado a la cera perdida.
-      </p>
-      <span class="status">Disponible</span>
-      <p><button class="open">Ver misión</button></p>
-
-      <div class="detail">
-        <p class="eyebrow">EL ACERTIJO</p>
-        <blockquote class="riddle">
-          Soy un insecto gigante pintado de fuego,<br>
-          tengo cuatro alas de hierro que nunca echan vuelo.<br>
-          ¿Quién soy?
-        </blockquote>
-        <p class="hint">Pista: es un insecto con alas.</p>
-        <form class="answer">
-          <input placeholder="Nombre de la obra" autocomplete="off">
-          <button>Comprobar</button>
-        </form>
-        <p class="feedback" aria-live="polite"></p>
-      </div>
-    </article>
-
-    <!-- MISIÓN 2 -->
-    <article class="mission locked" data-mission="1">
-      <p class="eyebrow">MISIÓN 02 · CONOCIMIENTO</p>
-      <h3>La Libélula</h3>
-      <p class="meta">
-        Autor: Fernando Andriacci<br>
-        Año: 2012<br>
-        Técnica: Lámina negra de acero recortada, calada,
-        soldada y esmaltada.
-      </p>
-      <span class="status">Bloqueada</span>
-      <p><button class="open" disabled>Ver misión</button></p>
-
-      <div class="detail">
-        <p class="eyebrow">EL ACERTIJO</p>
-        <blockquote class="riddle">
-          Mis alas son de metal, pero parecen vitral;<br>
-          llena de puntos y rayas, doy la bienvenida al entrar.<br>
-          ¿Quién soy?
-        </blockquote>
-        <p class="hint">Pista: es un insecto colorido asociado con Romero Britto.</p>
-        <form class="answer">
-          <input placeholder="Nombre de la obra" autocomplete="off">
-          <button>Comprobar</button>
-        </form>
-        <p class="feedback" aria-live="polite"></p>
-      </div>
-    </article>
-
-    <!-- MISIÓN 3 -->
-    <article class="mission locked" data-mission="2">
-      <p class="eyebrow">MISIÓN 03 · NATURALEZA</p>
-      <h3>Garden Butterfly (La Mariposa)</h3>
-      <p class="meta">
-        Autor: Romero Britto<br>
-        Año: 2010<br>
-        Técnica: Acero y aluminio con esmalte.
-        Estilo Neo-Pop / cubista.
-      </p>
-      <span class="status">Bloqueada</span>
-      <p><button class="open" disabled>Ver misión</button></p>
-
-      <div class="detail">
-        <p class="eyebrow">EL ACERTIJO</p>
-        <blockquote class="riddle">
-          Soy un ángel sin reloj que vive en un cubo de metal;<br>
-          todos me sienten pasar, pero nadie me puede atrapar.<br>
-          ¿Qué obra soy?
-        </blockquote>
-        <p class="hint">Pista: avanza continuamente y nadie puede detenerlo.</p>
-        <form class="answer">
-          <input placeholder="Nombre de la obra" autocomplete="off">
-          <button>Comprobar</button>
-        </form>
-        <p class="feedback" aria-live="polite"></p>
-      </div>
-    </article>
-
-    <!-- MISIÓN 4 -->
-    <article class="mission locked" data-mission="3">
-      <p class="eyebrow">MISIÓN 04 · CREATIVIDAD</p>
-      <h3>El Tiempo</h3>
-      <p class="meta">
-        Autor: Jorge Marín<br>
-        Año: 2010<br>
-        Técnica: Bronce a la cera perdida con pátina.
-      </p>
-      <span class="status">Bloqueada</span>
-      <p><button class="open" disabled>Ver misión</button></p>
-
-      <div class="detail">
-        <p class="eyebrow">EL ACERTIJO</p>
-        <blockquote class="riddle">
-          Soy un hombrecito blanco que sostiene al mundo entero;<br>
-          sin decir una palabra, hago guardia en lo alto del sendero.<br>
-          ¿Qué obra soy?
-        </blockquote>
-        <p class="hint">Pista: alguien que vigila o protege.</p>
-        <form class="answer">
-          <input placeholder="Nombre de la obra" autocomplete="off">
-          <button>Comprobar</button>
-        </form>
-        <p class="feedback" aria-live="polite"></p>
-      </div>
-    </article>
-
-    <!-- MISIÓN 5 -->
-    <article class="mission locked" data-mission="4">
-      <p class="eyebrow">MISIÓN 05 · EXPRESIÓN</p>
-      <h3>El Vigilante</h3>
-      <p class="meta">
-        Autor: Rodrigo de la Sierra<br>
-        Año: 2010<br>
-        Técnica: Resina policromada con estructura interna de acero.
-      </p>
-      <span class="status">Bloqueada</span>
-      <p><button class="open" disabled>Ver misión</button></p>
-
-      <div class="detail">
-        <p class="eyebrow">EL ACERTIJO FINAL</p>
-        <blockquote class="riddle">
-          Llevo la palabra "guerra" en mi nombre y el plumaje de un guerrero;<br>
-          mi cresta es de metal oscuro y en el andador del CCU soy el primero.<br>
-          ¿Quién soy?
-        </blockquote>
-        <p class="hint">Pista: su nombre combina una palabra en inglés relacionada con la guerra y “Giro”.</p>
-        <form class="answer">
-          <input placeholder="Nombre de la obra" autocomplete="off">
-          <button>Descubrir destino</button>
-        </form>
-        <p class="feedback" aria-live="polite"></p>
-      </div>
-    </article>
-
+  <div class="missions" id="missions">
+    <p class="empty-message">Preparando tu diario de explorador...</p>
   </div>
 </section>
 
@@ -484,24 +360,27 @@ button:disabled {
   <h3>✧ Insignia desbloqueada: Explorador del Arte ✧</h3>
 </section>
 
-<p style="text-align:right">
-  <button class="reset" id="reset">Reiniciar progreso de prueba</button>
-</p>
-
 <section class="intro">
-  <p class="eyebrow">REALIDAD AUMENTADA</p>
-  <h2>¿Quieres explorar el escáner?</h2>
+  <p class="eyebrow">CONTINÚA TU AVENTURA</p>
+  <h2>¿Estás listo para descubrir el siguiente secreto?</h2>
   <p>
-    El escáner actual utiliza una tarjeta de demostración MindAR.
-    Todavía necesitaremos preparar los marcadores de las esculturas
-    reales para reconocerlas.
+    Dirígete a las esculturas del CCU y utiliza el escáner
+    para encontrar las pistas.
   </p>
-  <a href="escaner.html">Probar escáner demo ↗</a>
+  <a class="scanner-cta" href="escaner.html">
+    Abrir escáner ✧
+  </a>
 </section>
 
+<p style="text-align:right">
+  <button class="reset" id="reset">
+    Reiniciar progreso de prueba
+  </button>
+</p>
+
 <p class="meta">
-  Prototipo académico. El progreso se guarda localmente en este
-  dispositivo. Datos de las obras proporcionados para esta prueba.
+  Proyecto académico · CCU BUAP · Arte aumentado.
+  El progreso se guarda localmente en este navegador.
 </p>
 
 </main>
@@ -515,45 +394,111 @@ button:disabled {
 
   const STORAGE_KEY = "ccu-guardianes-progreso-v1";
 
-  const answers = [
-    "la libelula",
-    "garden butterfly",
-    "el tiempo",
-    "el vigilante",
-    "war giro"
-  ];
-
-  const missions = [...document.querySelectorAll("[data-mission]")];
+  const missionsContainer = document.getElementById("missions");
   const fragments = [...document.querySelectorAll("[data-fragment]")];
 
-  function normalize(text) {
-    return text.toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z0-9 ]/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-  }
+  let obras = [];
+  let completed = loadProgress();
 
   function loadProgress() {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+
       if (saved && Array.isArray(saved.completed)) {
         return [...new Set(saved.completed.filter(
           n => Number.isInteger(n) && n >= 0 && n < 5
-        ))];
+        ))].sort((a,b) => a-b);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("No se pudo leer el progreso:", error);
+    }
+
     return [];
   }
 
-  let completed = loadProgress();
+  function normalizeProgress() {
+    completed = loadProgress();
+  }
 
-  function saveProgress() {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({ completed })
-    );
+  function renderMissions() {
+
+    missionsContainer.innerHTML = "";
+
+    obras.forEach((obra, index) => {
+
+      const unlocked =
+        index === 0 || completed.includes(index - 1);
+
+      const done = completed.includes(index);
+
+      const article = document.createElement("article");
+      article.className = "mission";
+
+      if (!unlocked) article.classList.add("locked");
+      if (done) article.classList.add("completed");
+
+      if (!unlocked) {
+
+        article.innerHTML = `
+          <p class="eyebrow">MISIÓN ${String(index + 1).padStart(2,"0")}</p>
+
+          <div class="mission-unknown">
+            <div class="mystery-symbol">?</div>
+            <div>
+              <h3>Identidad desconocida</h3>
+              <p>Completa la misión anterior para descubrir esta obra.</p>
+            </div>
+          </div>
+
+          <span class="status">🔒 Bloqueada</span>
+        `;
+
+      } else {
+
+        const heading = document.createElement("p");
+        heading.className = "eyebrow";
+        heading.textContent =
+          "MISIÓN " + String(index + 1).padStart(2,"0");
+
+        const title = document.createElement("h3");
+        title.textContent = obra.titulo || "Obra sin título";
+
+        const meta = document.createElement("p");
+        meta.className = "meta";
+        meta.textContent =
+          "Autor: " + (obra.artista || "No identificado") +
+          " · Año: " + (obra.anio || "No disponible");
+
+        const status = document.createElement("span");
+        status.className = "status";
+        status.textContent = done ? "✓ Completada" : "Disponible";
+
+        article.append(heading, title, meta, status);
+
+        if (done) {
+          const description = document.createElement("p");
+          description.className = "meta";
+          description.textContent =
+            "✧ Has descubierto esta obra y reunido su fragmento.";
+
+          article.append(description);
+        } else {
+          const message = document.createElement("p");
+          message.className = "meta";
+          message.textContent =
+            "Busca esta escultura en el CCU y escanéala para descubrir su acertijo.";
+
+          const link = document.createElement("a");
+          link.href = "escaner.html";
+          link.className = "mission-button";
+          link.textContent = "Buscar esta obra →";
+
+          article.append(message, link);
+        }
+      }
+
+      missionsContainer.append(article);
+    });
   }
 
   function updateInterface() {
@@ -570,33 +515,6 @@ button:disabled {
     document.getElementById("progressFill").style.width =
       `${percent}%`;
 
-    missions.forEach((mission, index) => {
-
-      const unlocked =
-        index === 0 || completed.includes(index - 1);
-
-      const done = completed.includes(index);
-
-      mission.classList.toggle("locked", !unlocked);
-      mission.classList.toggle("completed", done);
-
-      mission.querySelector(".status").textContent =
-        done ? "Completada" :
-        unlocked ? "Disponible" : "Bloqueada";
-
-      const button = mission.querySelector(".open");
-
-      button.disabled = !unlocked || done;
-
-      button.textContent = done
-        ? "Misión completada"
-        : "Ver misión";
-
-      if (!unlocked || done) {
-        mission.querySelector(".detail").classList.remove("open");
-      }
-    });
-
     fragments.forEach((fragment, index) => {
 
       const collected = completed.includes(index);
@@ -609,83 +527,38 @@ button:disabled {
 
     document.getElementById("final").classList.toggle(
       "show",
-      completed.length === 5
+      count === 5
     );
+
+    renderMissions();
   }
 
-  missions.forEach((mission, index) => {
+  async function init() {
 
-    const openButton = mission.querySelector(".open");
-    const detail = mission.querySelector(".detail");
-    const form = mission.querySelector("form");
-    const input = form.querySelector("input");
-    const feedback = mission.querySelector(".feedback");
+    try {
+      const response = await fetch("data/obras.json");
 
-    openButton.addEventListener("click", () => {
-      detail.classList.toggle("open");
-
-      if (detail.classList.contains("open")) {
-        input.focus();
-      }
-    });
-
-    form.addEventListener("submit", event => {
-
-      event.preventDefault();
-
-      const response = normalize(input.value);
-
-      if (!response) {
-        feedback.textContent =
-          "Escribe una respuesta para continuar.";
-        feedback.className = "feedback error";
-        return;
+      if (!response.ok) {
+        throw new Error("No se pudo cargar data/obras.json");
       }
 
-      const correct =
-        response === answers[index] ||
-        (index === 1 && response === "la mariposa");
+      obras = await response.json();
 
-      if (correct) {
-
-        if (!completed.includes(index)) {
-          completed.push(index);
-        }
-
-        completed.sort((a,b) => a-b);
-
-        saveProgress();
-
-        feedback.textContent =
-          index === 4
-            ? "¡Correcto! Has descubierto el destino final."
-            : "¡Correcto! Fragmento reunido. La siguiente misión está desbloqueada.";
-
-        feedback.className = "feedback success";
-
-        updateInterface();
-
-        if (index < 4) {
-          missions[index + 1].scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-          });
-        } else {
-          document.getElementById("final").scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-          });
-        }
-
-      } else {
-
-        feedback.textContent =
-          "Esa no es la respuesta. Observa la pista e inténtalo de nuevo.";
-
-        feedback.className = "feedback error";
+      if (!Array.isArray(obras) || obras.length !== 5) {
+        throw new Error("Se esperaban cinco obras.");
       }
-    });
-  });
+
+      obras.sort((a,b) => a.missionIndex - b.missionIndex);
+
+      normalizeProgress();
+      updateInterface();
+
+    } catch (error) {
+      console.error(error);
+      missionsContainer.textContent =
+        "No fue posible cargar las misiones. Intenta recargar la página.";
+    }
+  }
 
   document.getElementById("reset").addEventListener("click", () => {
 
@@ -699,12 +572,6 @@ button:disabled {
 
     localStorage.removeItem(STORAGE_KEY);
 
-    missions.forEach(mission => {
-      mission.querySelector(".feedback").textContent = "";
-      mission.querySelector(".feedback").className = "feedback";
-      mission.querySelector("input").value = "";
-    });
-
     updateInterface();
 
     window.scrollTo({
@@ -713,7 +580,7 @@ button:disabled {
     });
   });
 
-  updateInterface();
+  init();
 
 })();
 </script>
