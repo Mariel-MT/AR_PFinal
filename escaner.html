@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="es">
 <head>
@@ -5,16 +6,92 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#160d22">
   <title>Escáner | CCU BUAP</title>
+
   <link rel="stylesheet" href="css/estilos.css">
   <link rel="stylesheet" href="css/escaner.css">
+
+  <style>
+    .mission-panel {
+      margin-top: 18px;
+      padding: 17px;
+      border-radius: 14px;
+      background: #f5eff9;
+      color: #24113d;
+    }
+
+    .mission-panel h2 {
+      font-size: 20px;
+      margin: 8px 0;
+    }
+
+    .mission-panel blockquote {
+      margin: 12px 0;
+      padding: 14px;
+      border-left: 4px solid #d5a34e;
+      background: #fff;
+      border-radius: 5px 12px 12px 5px;
+      line-height: 1.7;
+    }
+
+    .mission-panel input {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #cfc3d8;
+      border-radius: 20px;
+      font: inherit;
+    }
+
+    .mission-panel button {
+      padding: 11px 18px;
+      border: 0;
+      border-radius: 20px;
+      background: #6d3ca0;
+      color: white;
+      font-weight: bold;
+    }
+
+    .mission-feedback {
+      min-height: 20px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .mission-feedback.success { color: #287342; }
+    .mission-feedback.error { color: #a33d55; }
+
+    .mission-hint {
+      font-size: 13px;
+      color: #746b7d;
+    }
+
+    .mission-locked {
+      font-weight: bold;
+      color: #9a6b25;
+    }
+
+    .adventure-link {
+      display: inline-block;
+      margin-top: 12px;
+      color: #6d3ca0;
+      font-weight: bold;
+    }
+  </style>
+
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <script src="js/escaner.js" defer></script>
 </head>
+
 <body class="scanner-page">
+
   <header class="scanner-header">
     <a href="index.html" class="back-link" aria-label="Volver">←</a>
-    <div><strong>CCU BUAP</strong><small>ESCÁNER DE OBRAS</small></div>
+    <div>
+      <strong>CCU BUAP</strong>
+      <small>ESCÁNER DE OBRAS</small>
+    </div>
     <a href="catalogo.html" class="catalog-link">Catálogo</a>
   </header>
 
@@ -24,41 +101,67 @@
   </div>
 
   <div class="camera-guide" aria-hidden="true">
-    <span class="corner tl"></span><span class="corner tr"></span>
-    <span class="corner bl"></span><span class="corner br"></span>
+    <span class="corner tl"></span>
+    <span class="corner tr"></span>
+    <span class="corner bl"></span>
+    <span class="corner br"></span>
     <p>Centra la imagen de la obra dentro del marco</p>
   </div>
 
   <section class="art-card hidden" id="art-card" aria-live="polite">
     <button class="close-card" id="close-card" aria-label="Cerrar ficha">×</button>
+
     <p class="card-eyebrow">OBRA RECONOCIDA</p>
     <h1 id="art-title">Título de la obra</h1>
     <p class="artist" id="art-artist">Artista</p>
+
     <div class="card-details">
       <p><span>Año</span><strong id="art-year">—</strong></p>
       <p><span>Técnica</span><strong id="art-technique">—</strong></p>
       <p><span>Tipo</span><strong id="art-type">—</strong></p>
       <p><span>Ubicación</span><strong id="art-location">CCU BUAP</strong></p>
     </div>
+
     <p class="description" id="art-description"></p>
-    <a class="more-link" id="art-more" href="catalogo.html">Consultar catálogo completo ↗</a>
+
+    <a class="more-link" id="art-more" href="catalogo.html">
+      Consultar catálogo completo ↗
+    </a>
+
+    <div class="mission-panel" id="mission-panel" hidden></div>
+
+    <a class="adventure-link" href="aventura.html">
+      Ver mi progreso en la aventura →
+    </a>
   </section>
 
   <div class="scanner-bottom">
     <p>La cámara solo se activa mientras utilizas el escáner.</p>
-    <button id="retry-button" class="retry-button" type="button">Reiniciar escáner</button>
+    <button id="retry-button" class="retry-button" type="button">
+      Reiniciar escáner
+    </button>
   </div>
 
-  <!-- Target de demostración oficial. Se sustituirá por targets/obras.mind al integrar las obras del CCU. -->
   <a-scene
     id="ar-scene"
-    mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind; autoStart: true; uiLoading: no; uiScanning: no; uiError: no; maxTrack: 1"
+    mindar-image="imageTargetSrc: targets/obras.mind; autoStart: true; uiLoading: no; uiScanning: no; uiError: no; maxTrack: 1"
     color-space="sRGB"
     renderer="colorManagement: true, physicallyCorrectLights"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: false">
-    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-    <a-entity id="demo-target" data-target-index="0" mindar-image-target="targetIndex: 0"></a-entity>
+
+    <a-camera
+      position="0 0 0"
+      look-controls="enabled: false">
+    </a-camera>
+
+    <a-entity mindar-image-target="targetIndex: 0" data-target-index="0"></a-entity>
+    <a-entity mindar-image-target="targetIndex: 1" data-target-index="1"></a-entity>
+    <a-entity mindar-image-target="targetIndex: 2" data-target-index="2"></a-entity>
+    <a-entity mindar-image-target="targetIndex: 3" data-target-index="3"></a-entity>
+    <a-entity mindar-image-target="targetIndex: 4" data-target-index="4"></a-entity>
+
   </a-scene>
+
 </body>
 </html>
