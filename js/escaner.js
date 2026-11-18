@@ -63,7 +63,40 @@ document.addEventListener("DOMContentLoaded", async () => {
     return true;
   }
 
+  // Muestra la mascota correspondiente al target reconocido.
+  function showPet(targetIndex) {
+
+    hideAllPets();
+
+    const pet = document.getElementById("pet-" + targetIndex);
+
+    if (!pet) {
+      console.warn("No se encontró la mascota del target:", targetIndex);
+      return;
+    }
+
+    pet.setAttribute("visible", true);
+    pet.setAttribute("scale", "0.001 0.001 0.001");
+
+    // Activa el efecto de aparición.
+    pet.emit("pet-appear");
+  }
+
+  // Oculta todas las mascotas.
+  function hideAllPets() {
+
+    for (let i = 0; i < 5; i++) {
+      const pet = document.getElementById("pet-" + i);
+
+      if (pet) {
+        pet.setAttribute("visible", false);
+      }
+    }
+  }
+
   function showLockedMessage() {
+
+    hideAllPets();
 
     missionPanel.hidden = false;
     missionPanel.replaceChildren();
@@ -240,6 +273,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     missionPanel.hidden = true;
     currentTarget = null;
 
+    hideAllPets();
+
     setStatus("Busca una obra para escanear");
   }
 
@@ -255,6 +290,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
+    showPet(obra.targetIndex);
     showFicha(obra);
   }
 
