@@ -1,14 +1,93 @@
+
 [
   {
-    "id": "demo-mindar",
     "targetIndex": 0,
-    "titulo": "Tarjeta de demostración",
-    "artista": "Ejemplo oficial de MindAR",
-    "anio": "Demostración",
-    "tecnica": "Imagen de prueba",
-    "tipo": "Target de prueba",
-    "ubicacion": "Prototipo WebAR",
-    "descripcion": "Esta ficha confirma que el reconocimiento de imagen y el panel informativo están conectados. Se sustituirá por la información verificada de una obra del CCU BUAP.",
-    "historia": "No corresponde a una obra del CCU BUAP."
+    "missionIndex": 0,
+    "titulo": "La bailarina",
+    "artista": "Jorge Peña",
+    "anio": 2010,
+    "tecnica": "Bronce mediante técnica de vaciado a la cera perdida.",
+    "tipo": "Escultura",
+    "ubicacion": "CCU BUAP",
+    "descripcion": "Una figura escultórica que representa el movimiento y la expresión del cuerpo. Su presencia inicia el recorrido de Los guardianes del arte.",
+    "enlace": "catalogo.html",
+    "acertijo": "Soy un insecto gigante pintado de fuego, tengo cuatro alas de hierro que nunca echan vuelo. ¿Quién soy?",
+    "pista": "Es un insecto con alas.",
+    "respuestas": [
+      "La Libélula",
+      "Libélula"
+    ]
+  },
+  {
+    "targetIndex": 1,
+    "missionIndex": 1,
+    "titulo": "La Libélula",
+    "artista": "Fernando Andriacci",
+    "anio": 2012,
+    "tecnica": "Lámina negra de acero recortada, calada, soldada y esmaltada.",
+    "tipo": "Escultura",
+    "ubicacion": "CCU BUAP",
+    "descripcion": "Una escultura de metal que representa una libélula mediante formas y cortes que construyen sus alas.",
+    "enlace": "catalogo.html",
+    "acertijo": "Mis alas son de metal, pero parecen vitral; llena de puntos y rayas, doy la bienvenida al entrar. ¿Quién soy?",
+    "pista": "Es una mariposa colorida relacionada con el artista Romero Britto.",
+    "respuestas": [
+      "Garden Butterfly",
+      "La Mariposa",
+      "Mariposa"
+    ]
+  },
+  {
+    "targetIndex": 2,
+    "missionIndex": 2,
+    "titulo": "Garden Butterfly (La Mariposa)",
+    "artista": "Romero Britto",
+    "anio": 2010,
+    "tecnica": "Acero y aluminio con acabado pintado en esmalte.",
+    "tipo": "Escultura Neo-Pop / cubista",
+    "ubicacion": "CCU BUAP",
+    "descripcion": "Una mariposa de formas geométricas y colores vibrantes que refleja el lenguaje visual Neo-Pop característico de Romero Britto.",
+    "enlace": "catalogo.html",
+    "acertijo": "Soy un ángel sin reloj que vive en un cubo de metal; todos me sienten pasar, pero nadie me puede atrapar. ¿Qué obra soy?",
+    "pista": "Es algo que avanza constantemente y no se puede detener.",
+    "respuestas": [
+      "El Tiempo",
+      "Tiempo"
+    ]
+  },
+  {
+    "targetIndex": 3,
+    "missionIndex": 3,
+    "titulo": "El Tiempo",
+    "artista": "Jorge Marín",
+    "anio": 2010,
+    "tecnica": "Vaciado en bronce a la cera perdida con pátina.",
+    "tipo": "Escultura",
+    "ubicacion": "CCU BUAP",
+    "descripcion": "Una obra escultórica que invita a reflexionar sobre el paso del tiempo y aquello que, aunque no podemos tocar, está presente en nuestra vida.",
+    "enlace": "catalogo.html",
+    "acertijo": "Soy un hombrecito blanco que sostiene al mundo entero; sin decir una palabra, hago guardia en lo alto del sendero. ¿Qué obra soy?",
+    "pista": "Es un personaje que vigila desde lo alto.",
+    "respuestas": [
+      "El Vigilante",
+      "Vigilante"
+    ]
+  },
+  {
+    "targetIndex": 4,
+    "missionIndex": 4,
+    "titulo": "El Vigilante",
+    "artista": "Rodrigo de la Sierra",
+    "anio": 2010,
+    "tecnica": "Resina policromada con estructura interna de acero.",
+    "tipo": "Escultura",
+    "ubicacion": "CCU BUAP",
+    "descripcion": "Una figura que parece observar y proteger su entorno. Su acertijo conduce al destino final de la aventura.",
+    "enlace": "catalogo.html",
+    "acertijo": "Llevo la palabra guerra en mi nombre y el plumaje de un guerrero; mi cresta es de metal oscuro y en el andador del CCU soy el primero. ¿Quién soy?",
+    "pista": "Su nombre combina una palabra en inglés relacionada con la guerra y la palabra Giro.",
+    "respuestas": [
+      "War Giro"
+    ]
   }
 ]
