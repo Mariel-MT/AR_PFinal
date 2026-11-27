@@ -1,0 +1,274 @@
+
+.map-main {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+
+.map-main h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(38px, 6vw, 60px);
+  margin: 12px 0;
+}
+
+.map-main h1 em {
+  color: var(--purple);
+}
+
+.map-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(250px, .8fr);
+  gap: 22px;
+  align-items: start;
+  margin: 30px 0 45px;
+}
+
+.map-frame {
+  position: relative;
+  width: 100%;
+  max-width: 563px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 18px;
+  background: white;
+  box-shadow: 0 12px 35px #24113d16;
+}
+
+.map-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.map-pin {
+  position: absolute;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 3px solid white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  box-shadow: 0 2px 9px #24113d55;
+  transition: transform .2s;
+}
+
+.map-pin:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* Posiciones tomadas de mapa-marcas.png */
+
+.pin-bailarina {
+  left: 39.1%;
+  top: 2.6%;
+  background: #1689e8;
+}
+
+.pin-mariposa {
+  left: 33%;
+  top: 5.8%;
+  background: #21a65b;
+}
+
+.pin-libelula {
+  left: 46.7%;
+  top: 50.1%;
+  background: #f28b25;
+}
+
+.pin-vigilante {
+  left: 45%;
+  top: 93%;
+  background: #8c45bd;
+}
+
+.pin-tiempo {
+  left: 28.2%;
+  top: 18.3%;
+  background: #e33e48;
+}
+
+.pin-wargiro {
+  left: 29.1%;
+  top: 2.2%;
+  background: #f3cb25;
+}
+
+.map-pin.is-complete {
+  box-shadow: 0 0 0 5px #b8e5c5, 0 2px 9px #24113d55;
+}
+
+.map-pin.is-final-locked {
+  filter: grayscale(1);
+  opacity: .65;
+}
+
+.map-info {
+  position: sticky;
+  top: 20px;
+  padding: 24px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+
+.map-info h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 27px;
+  margin: 10px 0;
+}
+
+.map-info p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.info-image {
+  display: block;
+  width: 100%;
+  max-height: 190px;
+  object-fit: contain;
+  margin: 15px 0;
+  border-radius: 12px;
+}
+
+.work-status {
+  padding: 10px;
+  background: #f5eff9;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.text-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--purple);
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.map-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 22px;
+  padding: 25px;
+  border-radius: 18px;
+  background: #f1eaf7;
+}
+
+.map-actions h2 {
+  font-family: 'Playfair Display', serif;
+  margin: 8px 0;
+}
+
+.map-actions p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.map-note {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 15px 0 35px;
+}
+
+/* Interfaz de cámara */
+
+.ar-interface {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+body.ar-active .ar-interface {
+  display: block;
+}
+
+.ar-topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  color: white;
+  background: #160d22dc;
+  font-size: 13px;
+  pointer-events: auto;
+}
+
+.ar-topbar button {
+  border: 1px solid #ffffff80;
+  border-radius: 30px;
+  padding: 9px 14px;
+  color: white;
+  background: #ffffff18;
+}
+
+.ar-guide {
+  position: absolute;
+  inset: 17% 9% 16%;
+  border: 2px solid #ffffff80;
+  border-radius: 18px;
+}
+
+.ar-guide p {
+  position: absolute;
+  bottom: -42px;
+  width: 100%;
+  color: white;
+  text-align: center;
+  font-size: 13px;
+  text-shadow: 0 1px 5px black;
+}
+
+/* Escena MindAR */
+
+.ar-scene {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 19;
+  width: 100vw !important;
+  height: 100vh !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.ar-active .ar-scene {
+  opacity: 1;
+}
+
+/* Adaptación a celular */
+
+@media (max-width: 760px) {
+  .map-main {
+    padding: 30px 16px;
+  }
+
+  .map-layout {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .map-info {
+    position: static;
+  }
+
+  .map-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .map-actions .button {
+    width: 100%;
+  }
+}
