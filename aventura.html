@@ -541,21 +541,15 @@
         collected ? "Fragmento reunido" : "Por descubrir";
     });
 
-    document.getElementById("final").classList.toggle(
-      "show",
-      count === 5
-      localStorage.getItem("ccu-guardianes-war-giro-descubierto") === "true"
-    );
+    const warGiroFound =
+  localStorage.getItem("ccu-guardianes-war-giro-descubierto") === "true";
 
+document.getElementById("final").classList.toggle(
+  "show",
+  count === 5 && warGiroFound
+);
     renderMissions();
   }
-
-    window.addEventListener("pageshow", (event) => {
-    if (event.persisted) {
-      normalizeProgress();
-      updateInterface();
-    }
-  });
 
   window.addEventListener("storage", (event) => {
     if (event.key === STORAGE_KEY) {
