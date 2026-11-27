@@ -240,6 +240,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         saveProgress(updated);
 
+        if (index === 4) {
+  localStorage.setItem(
+    "ccu-guardianes-war-giro-descubierto",
+    "true"
+  );
+}
+
         feedback.textContent =
           index === 4
             ? "¡Correcto! Has descubierto War Giro y completado la aventura."
