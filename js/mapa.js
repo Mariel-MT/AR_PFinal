@@ -77,28 +77,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   // =====================================
 
   function updatePins() {
-  const completed = getProgress();
+    const completed = getProgress();
 
-  mapPins.forEach(pin => {
-    const key = pin.dataset.work;
+    mapPins.forEach(pin => {
+      const key = pin.dataset.work;
 
-    if (key === "wargiro") {
-      const found = isWarGiroFound();
+      if (key === "wargiro") {
+        const found = isWarGiroFound();
 
-      pin.classList.toggle("is-complete", found);
-      pin.classList.toggle("is-locked", !found);
-      pin.classList.toggle("is-final-locked", !found);
+        pin.classList.toggle("is-complete", found);
+        pin.classList.toggle("is-final-locked", !found);
 
-      return;
-    }
+        return;
+      }
 
-    const missionIndex = completedWorks[key];
-    const done = completed.includes(missionIndex);
+      const missionIndex = completedWorks[key];
+      const done = completed.includes(missionIndex);
 
-    pin.classList.toggle("is-complete", done);
-    pin.classList.toggle("is-locked", !done);
-  });
-}
+      pin.classList.toggle("is-complete", done);
+    });
+  }
 
   // =====================================
   // MOSTRAR INFORMACIÓN DE UNA OBRA
@@ -111,22 +109,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     infoImage.hidden = true;
     infoDetails.hidden = true;
-
-    // No mostrar información de obras con misiones pendientes
-if (
-  key !== "wargiro" &&
-  !getProgress().includes(completedWorks[key])
-) {
-  infoTitle.textContent = "Obra misteriosa";
-
-  infoDescription.textContent =
-    "Esta obra aún es un misterio. ¡Continúa tu aventura para descubrirla!";
-
-  infoStatus.textContent =
-    "Completa la misión correspondiente para descubrir esta obra.";
-
-  return;
-}
 
     // =====================================
     // WAR GIRO
