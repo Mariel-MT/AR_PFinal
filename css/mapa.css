@@ -1,121 +1,559 @@
-
 /* =====================================
-   MARCADORES DE OBRAS BLOQUEADAS
+   DESPLAZAMIENTO GENERAL
 ===================================== */
 
-.map-pin.is-locked {
-  background: #000000 !important;
-  border-color: white;
-  opacity: 1;
-  filter: none;
+html {
+  width: 100%;
+  height: auto !important;
+  min-height: 100%;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+body.map-page {
+  display: block !important;
+  position: relative;
+  width: 100%;
+  height: auto !important;
+  min-height: 100vh;
+  max-height: none !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+}
+
+/* =====================================
+   MAPA INTERACTIVO
+===================================== */
+
+.map-main {
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: 1120px;
+  height: auto !important;
+  min-height: 0;
+  max-height: none !important;
+  margin: 0 auto;
+  padding: 45px 28px 50px;
+  overflow: visible !important;
+}
+
+.map-main h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(38px, 6vw, 60px);
+  margin: 12px 0;
+}
+
+.map-main h1 em {
+  color: var(--purple);
+}
+
+/* =====================================
+   DISTRIBUCIÓN DEL MAPA
+===================================== */
+
+.map-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(250px, .8fr);
+  gap: 22px;
+  align-items: start;
+  height: auto !important;
+  max-height: none !important;
+  margin: 30px 0 45px;
+  overflow: visible !important;
+}
+
+/* =====================================
+   IMAGEN DEL MAPA
+===================================== */
+
+.map-frame {
+  position: relative;
+  width: 100%;
+  max-width: 563px;
+  height: auto !important;
+  max-height: none !important;
+  margin: 0 auto;
+  overflow: visible !important;
+  border-radius: 18px;
+  background: white;
+  box-shadow: 0 12px 35px #24113d16;
+}
+
+.map-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 18px;
+}
+
+/* =====================================
+   MARCADORES
+===================================== */
+
+.map-pin {
+  position: absolute;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 3px solid white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  box-shadow: 0 2px 9px #24113d55;
+  transition: transform .2s;
+}
+
+.map-pin:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+.pin-bailarina {
+  left: 39.1%;
+  top: 2.6%;
+  background: #1689e8;
+}
+
+.pin-mariposa {
+  left: 33%;
+  top: 5.8%;
+  background: #21a65b;
+}
+
+.pin-libelula {
+  left: 46.7%;
+  top: 50.1%;
+  background: #f28b25;
+}
+
+.pin-vigilante {
+  left: 45%;
+  top: 93%;
+  background: #8c45bd;
+}
+
+.pin-tiempo {
+  left: 28.2%;
+  top: 18.3%;
+  background: #e33e48;
+}
+
+.pin-wargiro {
+  left: 29.1%;
+  top: 2.2%;
+  background: #f3cb25;
 }
 
 .map-pin.is-complete {
-  filter: none;
+  box-shadow: 0 0 0 5px #b8e5c5, 0 2px 9px #24113d55;
+}
+
+/* Obras cuyas misiones todavía no se completan */
+.map-pin.is-locked {
+  background: #000000 !important;
   opacity: 1;
+  filter: none;
+}
+
+.map-pin.is-final-locked {
+  filter: grayscale(1);
+  opacity: .65;
 }
 
 /* =====================================
-   MENSAJE DE OBRA MISTERIOSA EN AR
+   FICHA DE INFORMACIÓN
 ===================================== */
 
-.ar-mystery-message {
-  position: absolute;
-  left: 50%;
-  bottom: 24px;
-  transform: translateX(-50%);
-  z-index: 10002;
-  width: calc(100% - 32px);
-  max-width: 420px;
-  padding: 16px 18px;
-  border-radius: 14px;
-  background: #160d22ed;
-  color: white;
-  text-align: center;
-  font-size: 14px;
-  line-height: 1.5;
-  box-shadow: 0 5px 25px #0008;
-  pointer-events: auto;
-}
-
-/* =====================================
-   FICHA DE OBRA DESCUBIERTA EN AR
-===================================== */
-
-.ar-art-card {
-  position: absolute;
-  z-index: 10003;
-  left: 50%;
-  bottom: 18px;
-  transform: translateX(-50%);
-  width: calc(100% - 28px);
-  max-width: 430px;
-  max-height: 68vh;
-  max-height: 68dvh;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 20px;
-  border-radius: 18px;
+.map-info {
+  position: sticky;
+  top: 20px;
+  min-width: 0;
+  padding: 24px;
   background: white;
-  color: #24113d;
-  box-shadow: 0 8px 35px #0008;
-  pointer-events: auto;
+  border: 1px solid var(--line);
+  border-radius: 18px;
 }
 
-.ar-art-card[hidden],
-.ar-mystery-message[hidden] {
-  display: none !important;
-}
-
-.ar-art-card h2 {
-  margin: 8px 35px 12px 0;
+.map-info h2 {
   font-family: 'Playfair Display', serif;
-  font-size: 25px;
+  font-size: 27px;
+  margin: 10px 0;
 }
 
-.ar-art-card p:not(.eyebrow) {
-  color: #62596b;
-  font-size: 13px;
-  line-height: 1.55;
+.map-info p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
 }
 
-.ar-art-card img {
+.info-image {
   display: block;
   width: 100%;
-  max-height: 190px;
-  margin: 12px 0;
-  border-radius: 12px;
+  max-height: 220px;
   object-fit: contain;
+  margin: 15px 0;
+  border-radius: 12px;
 }
 
-.ar-art-card img[hidden] {
-  display: none !important;
+.work-status {
+  padding: 10px;
+  background: #f5eff9;
+  border-radius: 10px;
+  font-weight: bold;
 }
 
-.ar-card-close {
-  float: right;
-  width: 34px;
-  height: 34px;
-  border: none;
-  border-radius: 50%;
-  background: #24113d;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-  pointer-events: auto;
-}
-
-.ar-art-card .text-link {
+.text-link {
   display: inline-block;
   margin-top: 10px;
   color: var(--purple);
+  font-size: 13px;
   font-weight: bold;
-  text-decoration: none;
 }
 
-/* La ficha y el mensaje deben poder recibir toques */
-body.map-page.ar-active .ar-art-card,
-body.map-page.ar-active .ar-mystery-message,
+/* Botón cerrar: solo aparece en celular */
+
+.map-info-close {
+  display: none;
+}
+
+/* =====================================
+   SECCIÓN DE REALIDAD AUMENTADA
+===================================== */
+
+.map-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 22px;
+  padding: 25px;
+  border-radius: 18px;
+  background: #f1eaf7;
+}
+
+.map-actions h2 {
+  font-family: 'Playfair Display', serif;
+  margin: 8px 0;
+}
+
+.map-actions p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.map-note {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 15px 0 35px;
+}
+
+/* =====================================
+   INTERFAZ DE CÁMARA
+===================================== */
+
+.ar-interface {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+body.ar-active .ar-interface {
+  display: block;
+}
+
+.ar-topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  color: white;
+  background: #160d22dc;
+  font-size: 13px;
+  pointer-events: auto;
+}
+
+.ar-topbar button {
+  border: 1px solid #ffffff80;
+  border-radius: 30px;
+  padding: 9px 14px;
+  color: white;
+  background: #ffffff18;
+  cursor: pointer;
+}
+
+.ar-guide {
+  position: absolute;
+  inset: 17% 9% 16%;
+  border: 2px solid #ffffff80;
+  border-radius: 18px;
+  pointer-events: none;
+}
+
+.ar-guide p {
+  position: absolute;
+  bottom: -42px;
+  width: 100%;
+  color: white;
+  text-align: center;
+  font-size: 13px;
+  text-shadow: 0 1px 5px black;
+}
+
+/* =====================================
+   ESCENA MINDAR
+===================================== */
+
+.ar-scene {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 19;
+  display: block !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+body.ar-active .ar-scene {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* =====================================
+   ADAPTACIÓN A CELULARES
+===================================== */
+
+@media (max-width: 760px) {
+
+  html {
+    height: auto !important;
+    min-height: 100%;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  body.map-page {
+    display: block !important;
+    height: auto !important;
+    min-height: 100vh;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+  }
+
+  .map-main {
+    display: block;
+    width: 100%;
+    height: auto !important;
+    min-height: 0;
+    max-height: none !important;
+    padding: 30px 16px 45px;
+    overflow: visible !important;
+  }
+
+  .map-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .map-frame {
+    position: relative;
+    width: 100%;
+    max-width: 563px;
+    height: auto !important;
+    max-height: none !important;
+    flex: none;
+    margin: 0 auto;
+    overflow: visible !important;
+  }
+
+  .map-image {
+    display: block;
+    width: 100%;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  /* Ficha emergente al seleccionar un marcador */
+
+  .map-info {
+    display: none;
+    position: fixed !important;
+    z-index: 30;
+    top: 50%;
+    left: 16px;
+    right: 16px;
+    width: auto;
+    max-height: 82vh;
+    max-height: 82dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform: translateY(-50%);
+    margin: 0;
+    padding: 22px;
+    background: white;
+    box-shadow: 0 10px 40px #24113d55;
+  }
+
+  .map-info.is-open {
+    display: block;
+  }
+
+  .map-info-close {
+    display: block;
+    margin-left: auto;
+    margin-bottom: 12px;
+    padding: 9px 14px;
+    border: none;
+    border-radius: 20px;
+    background: #24113d;
+    color: white;
+    cursor: pointer;
+  }
+
+  .map-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .map-actions .button {
+    width: 100%;
+  }
+
+  .map-note {
+    margin-bottom: 30px;
+  }
+}
+/* =====================================
+   MODO CÁMARA AR: OCULTAR PÁGINA
+===================================== */
+
+body.map-page.ar-active {
+  overflow: hidden !important;
+  background: #000 !important;
+}
+
+/* Ocultar todo el contenido normal de la página */
+
+body.map-page.ar-active > .site-header,
+body.map-page.ar-active > .map-main,
+body.map-page.ar-active > footer {
+  display: none !important;
+}
+
+/* Mantener la cámara por encima del contenido */
+
+body.map-page.ar-active #ar-scene {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  z-index: 9998 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Mantener los controles de cámara visibles */
+
+body.map-page.ar-active .ar-interface {
+  display: block !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+}
+
+/* Ocultar las instrucciones de encuadre al reconocer el mapa */
+
+.ar-guide.is-hidden {
+  display: none !important;
+}
+
+/* =====================================
+   PANTALLA COMPLETA DE REALIDAD AUMENTADA
+===================================== */
+
+/* Fondo oscuro cuando se activa la cámara */
+html:has(body.map-page.ar-active),
+body.map-page.ar-active {
+  background: #000 !important;
+  overflow: hidden !important;
+  height: 100% !important;
+}
+
+/* Ocultar completamente la página normal */
+body.map-page.ar-active > .site-header,
+body.map-page.ar-active > .map-main,
+body.map-page.ar-active > footer {
+  display: none !important;
+}
+
+/* La escena AR ocupa toda la pantalla */
+body.map-page.ar-active #ar-scene {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 9998 !important;
+  pointer-events: auto !important;
+}
+
+/* El lienzo de A-Frame ocupa toda la pantalla */
+body.map-page.ar-active #ar-scene canvas {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Interfaz y botón Cerrar por encima de la cámara */
+body.map-page.ar-active .ar-interface {
+  display: block !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+  pointer-events: none;
+}
+
 body.map-page.ar-active .ar-topbar {
   pointer-events: auto !important;
+}
+
+/* Ocultar las instrucciones cuando se reconoce el mapa */
+.ar-guide.is-hidden {
+  display: none !important;
 }
