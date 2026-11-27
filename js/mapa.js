@@ -92,6 +92,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       pin.classList.toggle("is-complete", discovered);
       pin.classList.toggle("is-locked", !discovered);
+
       pin.classList.toggle(
         "is-final-locked",
         key === "wargiro" && !discovered
@@ -101,11 +102,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function showMysteryMessage() {
     infoTitle.textContent = "Obra aún por descubrir";
+
     infoImage.hidden = true;
     infoDetails.hidden = true;
 
     infoDescription.textContent = MYSTERY_MESSAGE;
-    infoStatus.textContent = "✧ Sigue explorando para revelar este punto.";
+
+    infoStatus.textContent =
+      "✧ Sigue explorando para revelar este punto.";
   }
 
   function showWork(key) {
@@ -146,8 +150,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!obra) {
       infoTitle.textContent = "Obra no disponible";
+
       infoDescription.textContent =
         "No se encontró la información de esta obra.";
+
       infoStatus.textContent = "";
       return;
     }
@@ -161,10 +167,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     infoArtist.textContent = obra.artista || "No disponible";
     infoYear.textContent = obra.anio || "No disponible";
+
     infoDetails.hidden = false;
 
     infoStatus.textContent =
-      "✓ Obra descubierta · Misión " + (missionIndex + 1) + " completada";
+      "✓ Obra descubierta · Misión " +
+      (missionIndex + 1) +
+      " completada";
   }
 
   mapPins.forEach(pin => {
@@ -173,9 +182,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  closeInfo.addEventListener("click", () => {
-    infoCard.classList.remove("is-open");
-  });
+  if (closeInfo) {
+    closeInfo.addEventListener("click", () => {
+      infoCard.classList.remove("is-open");
+    });
+  }
 
   // =====================================
   // CARGAR DATOS DE LAS OBRAS
@@ -196,6 +207,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error(error);
 
     infoTitle.textContent = "Error al cargar el mapa";
+
     infoDescription.textContent =
       "No fue posible cargar la información de las obras.";
   }
@@ -214,29 +226,50 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const arMarkers = document.querySelectorAll(".ar-marker");
 
-  const mysteryMessage = document.getElementById("ar-mystery-message");
+  const mysteryMessage =
+    document.getElementById("ar-mystery-message");
 
-  const arCard = document.getElementById("ar-art-card");
-  const closeArCard = document.getElementById("close-ar-card");
+  const arCard =
+    document.getElementById("ar-art-card");
 
-  const arCardTitle = document.getElementById("ar-card-title");
-  const arCardImage = document.getElementById("ar-card-image");
-  const arCardDescription = document.getElementById("ar-card-description");
-  const arCardDetails = document.getElementById("ar-card-details");
-  const arCardArtist = document.getElementById("ar-card-artist");
-  const arCardYear = document.getElementById("ar-card-year");
+  const closeArCard =
+    document.getElementById("close-ar-card");
+
+  const arCardTitle =
+    document.getElementById("ar-card-title");
+
+  const arCardImage =
+    document.getElementById("ar-card-image");
+
+  const arCardDescription =
+    document.getElementById("ar-card-description");
+
+  const arCardDetails =
+    document.getElementById("ar-card-details");
+
+  const arCardArtist =
+    document.getElementById("ar-card-artist");
+
+  const arCardYear =
+    document.getElementById("ar-card-year");
 
   let arStarted = false;
   let mysteryTimeout = null;
 
-  // Actualizar colores y nombres de los puntos AR.
+  // =====================================
+  // ACTUALIZAR COLORES DE LOS PUNTOS AR
+  // =====================================
+
   function updateARMarkers() {
     arMarkers.forEach(marker => {
       const key = marker.dataset.work;
       const discovered = isWorkDiscovered(key);
 
-      const sphere = marker.querySelector(".ar-marker-sphere");
-      const label = marker.querySelector(".ar-marker-label");
+      const sphere =
+        marker.querySelector(".ar-marker-sphere");
+
+      const label =
+        marker.querySelector(".ar-marker-label");
 
       if (sphere) {
         sphere.setAttribute(
@@ -256,9 +289,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
+  // =====================================
+  // MENSAJES Y FICHAS AR
+  // =====================================
+
   function hideArMessages() {
-    mysteryMessage.hidden = true;
-    arCard.hidden = true;
+    if (mysteryMessage) {
+      mysteryMessage.hidden = true;
+    }
+
+    if (arCard) {
+      arCard.hidden = true;
+    }
 
     if (mysteryTimeout) {
       clearTimeout(mysteryTimeout);
@@ -267,7 +309,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function showArMystery() {
+    if (!mysteryMessage || !arCard) return;
+
     arCard.hidden = true;
+    mysteryMessage.textContent = MYSTERY_MESSAGE;
     mysteryMessage.hidden = false;
 
     if (mysteryTimeout) {
@@ -282,11 +327,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function showArWork(key) {
 
-    // Si no se ha descubierto, mostrar únicamente el mensaje.
+    // Las obras no descubiertas solo muestran el mensaje.
     if (!isWorkDiscovered(key)) {
       showArMystery();
       return;
     }
+
+    if (!arCard) return;
 
     mysteryMessage.hidden = true;
     arCard.hidden = false;
@@ -315,8 +362,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!obra) {
       arCardTitle.textContent = "Obra no disponible";
+
       arCardDescription.textContent =
         "No se encontró la información de esta obra.";
+
       return;
     }
 
@@ -327,33 +376,43 @@ document.addEventListener("DOMContentLoaded", async () => {
     arCardImage.alt = obra.titulo;
     arCardImage.hidden = false;
 
-    arCardArtist.textContent = obra.artista || "No disponible";
-    arCardYear.textContent = obra.anio || "No disponible";
+    arCardArtist.textContent =
+      obra.artista || "No disponible";
+
+    arCardYear.textContent =
+      obra.anio || "No disponible";
 
     arCardDetails.hidden = false;
   }
 
-  // Hacer interactivos los seis puntos de la cámara.
+  // =====================================
+  // INTERACCIÓN CON LOS PUNTOS AR
+  // =====================================
+
   arMarkers.forEach(marker => {
     marker.addEventListener("click", event => {
       event.stopPropagation();
 
       const key = marker.dataset.work;
+
       showArWork(key);
     });
   });
 
-  closeArCard.addEventListener("click", () => {
-    arCard.hidden = true;
-  });
+  if (closeArCard) {
+    closeArCard.addEventListener("click", () => {
+      arCard.hidden = true;
+    });
+  }
 
   // =====================================
-  // INICIAR Y CERRAR CÁMARA
+  // INICIAR CÁMARA
   // =====================================
 
   async function startAR() {
 
     document.body.classList.add("ar-active");
+
     arInterface.setAttribute("aria-hidden", "false");
 
     hideArMessages();
@@ -367,7 +426,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       if (!scene.hasLoaded) {
         await new Promise(resolve => {
-          scene.addEventListener("loaded", resolve, { once: true });
+          scene.addEventListener("loaded", resolve, {
+            once: true
+          });
         });
       }
 
@@ -387,33 +448,59 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       arStatus.textContent =
         "No se pudo abrir la cámara. Revisa los permisos del navegador.";
+
+      // Si falla la cámara, recuperar la página.
+      document.body.classList.remove("ar-active");
+      arInterface.setAttribute("aria-hidden", "true");
     }
   }
 
+  // =====================================
+  // CERRAR CÁMARA
+  // =====================================
+
   async function stopAR() {
+
+    /*
+      IMPORTANTE:
+      Primero quitar la clase ar-active para recuperar
+      la página y el scroll, sin esperar a MindAR.
+    */
+
+    document.body.classList.remove("ar-active");
+
+    arInterface.setAttribute("aria-hidden", "true");
+
+    arStarted = false;
+
+    hideArMessages();
+
+    /*
+      Después detener MindAR.
+      Si falla, la página ya habrá recuperado
+      el desplazamiento normal.
+    */
 
     try {
       const mindarSystem =
         scene.systems["mindar-image-system"];
 
-      if (arStarted && mindarSystem) {
+      if (mindarSystem) {
         await mindarSystem.stop();
       }
 
     } catch (error) {
       console.warn("No se pudo detener la cámara:", error);
     }
-
-    arStarted = false;
-
-    hideArMessages();
-
-    document.body.classList.remove("ar-active");
-    arInterface.setAttribute("aria-hidden", "true");
   }
 
-  startButton.addEventListener("click", startAR);
-  closeButton.addEventListener("click", stopAR);
+  if (startButton) {
+    startButton.addEventListener("click", startAR);
+  }
+
+  if (closeButton) {
+    closeButton.addEventListener("click", stopAR);
+  }
 
   // =====================================
   // DETECCIÓN DEL MAPA
@@ -452,7 +539,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Actualizar al volver a la pestaña.
   document.addEventListener("visibilitychange", () => {
 
-    if (document.hidden && document.body.classList.contains("ar-active")) {
+    if (
+      document.hidden &&
+      document.body.classList.contains("ar-active")
+    ) {
       stopAR();
     } else {
       refreshProgress();
