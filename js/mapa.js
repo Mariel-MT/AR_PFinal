@@ -104,10 +104,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function showWork(key) {
 
-    // En celular, abrir la ficha emergente
-    if (window.matchMedia("(max-width: 760px)").matches) {
-      infoCard.classList.add("is-open");
-    }
+    // Mostrar la ficha al seleccionar cualquier marcador
+    infoCard.classList.add("is-open");
 
     infoImage.hidden = true;
     infoDetails.hidden = true;
