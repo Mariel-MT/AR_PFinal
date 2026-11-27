@@ -487,3 +487,66 @@ body.map-page.ar-active .ar-interface {
 .ar-guide.is-hidden {
   display: none !important;
 }
+
+/* =====================================
+   PANTALLA COMPLETA DE REALIDAD AUMENTADA
+===================================== */
+
+/* Fondo oscuro cuando se activa la cámara */
+html:has(body.map-page.ar-active),
+body.map-page.ar-active {
+  background: #000 !important;
+  overflow: hidden !important;
+  height: 100% !important;
+}
+
+/* Ocultar completamente la página normal */
+body.map-page.ar-active > .site-header,
+body.map-page.ar-active > .map-main,
+body.map-page.ar-active > footer {
+  display: none !important;
+}
+
+/* La escena AR ocupa toda la pantalla */
+body.map-page.ar-active #ar-scene {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 9998 !important;
+  pointer-events: auto !important;
+}
+
+/* El lienzo de A-Frame ocupa toda la pantalla */
+body.map-page.ar-active #ar-scene canvas {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Interfaz y botón Cerrar por encima de la cámara */
+body.map-page.ar-active .ar-interface {
+  display: block !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+  pointer-events: none;
+}
+
+body.map-page.ar-active .ar-topbar {
+  pointer-events: auto !important;
+}
+
+/* Ocultar las instrucciones cuando se reconoce el mapa */
+.ar-guide.is-hidden {
+  display: none !important;
+}
