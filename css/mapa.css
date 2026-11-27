@@ -1,26 +1,14 @@
 
 /* =====================================
-   ESTRUCTURA GENERAL
+   MAPA INTERACTIVO
 ===================================== */
-
-html {
-  min-height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-body.map-page {
-  min-height: 100vh;
-  height: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
 
 .map-main {
   width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 45px 28px 50px;
   height: auto;
-  min-height: 0;
-  padding: 45px 20px 40px;
   overflow: visible;
 }
 
@@ -34,21 +22,19 @@ body.map-page {
   color: var(--purple);
 }
 
-/* =====================================
-   MAPA Y DISTRIBUCIÓN
-===================================== */
+/* Distribución del mapa y la información */
 
 .map-layout {
   display: grid;
-  grid-template-columns: minmax(0, 563px) minmax(250px, 1fr);
+  grid-template-columns: minmax(0, 1.3fr) minmax(250px, .8fr);
   gap: 22px;
   align-items: start;
-  margin: 30px auto 45px;
-  width: 100%;
-  max-width: 1100px;
+  margin: 30px 0 45px;
   height: auto;
   overflow: visible;
 }
+
+/* Imagen completa del mapa */
 
 .map-frame {
   position: relative;
@@ -71,9 +57,7 @@ body.map-page {
   border-radius: 18px;
 }
 
-/* =====================================
-   MARCADORES
-===================================== */
+/* Marcadores */
 
 .map-pin {
   position: absolute;
@@ -87,7 +71,6 @@ body.map-page {
   cursor: pointer;
   box-shadow: 0 2px 9px #24113d55;
   transition: transform .2s;
-  touch-action: manipulation;
 }
 
 .map-pin:hover {
@@ -139,9 +122,7 @@ body.map-page {
   opacity: .65;
 }
 
-/* =====================================
-   FICHA DE INFORMACIÓN
-===================================== */
+/* Ficha de información en computadora */
 
 .map-info {
   position: sticky;
@@ -151,7 +132,6 @@ body.map-page {
   background: white;
   border: 1px solid var(--line);
   border-radius: 18px;
-  box-shadow: 0 8px 25px #24113d0d;
 }
 
 .map-info h2 {
@@ -169,7 +149,7 @@ body.map-page {
 .info-image {
   display: block;
   width: 100%;
-  max-height: 190px;
+  max-height: 220px;
   object-fit: contain;
   margin: 15px 0;
   border-radius: 12px;
@@ -190,13 +170,13 @@ body.map-page {
   font-weight: bold;
 }
 
+/* Botón para cerrar la ficha */
+
 .map-info-close {
   display: none;
 }
 
-/* =====================================
-   SECCIÓN DE REALIDAD AUMENTADA
-===================================== */
+/* Sección de realidad aumentada */
 
 .map-actions {
   display: flex;
@@ -233,7 +213,7 @@ body.map-page {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 30;
+  z-index: 20;
   pointer-events: none;
 }
 
@@ -282,14 +262,12 @@ body.ar-active .ar-interface {
   text-shadow: 0 1px 5px black;
 }
 
-/* =====================================
-   ESCENA MINDAR
-===================================== */
+/* Escena MindAR */
 
 .ar-scene {
   position: fixed !important;
   inset: 0 !important;
-  z-index: 20;
+  z-index: 19;
   width: 100vw !important;
   height: 100vh !important;
   opacity: 0;
@@ -298,67 +276,79 @@ body.ar-active .ar-interface {
 
 body.ar-active .ar-scene {
   opacity: 1;
+  pointer-events: auto;
 }
 
 /* =====================================
-   ADAPTACIÓN PARA CELULARES
+   ADAPTACIÓN A CELULARES
 ===================================== */
 
 @media (max-width: 760px) {
 
+  html,
+  body {
+    height: auto !important;
+    min-height: 100%;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  body.map-page {
+    min-height: 100vh;
+    overflow-y: auto !important;
+  }
+
   .map-main {
+    width: 100%;
+    height: auto !important;
+    min-height: 0;
     padding: 30px 16px 45px;
-    overflow: visible;
+    overflow: visible !important;
   }
 
   .map-layout {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    width: 100%;
-    margin: 25px auto 35px;
-    overflow: visible;
+    align-items: stretch;
+    gap: 18px;
+    height: auto !important;
+    overflow: visible !important;
   }
 
   .map-frame {
     width: 100%;
     max-width: 563px;
+    height: auto !important;
     flex: none;
+    margin: 0 auto;
     overflow: visible;
   }
 
   .map-image {
     width: 100%;
-    height: auto;
-    max-height: none;
+    height: auto !important;
+    max-height: none !important;
   }
 
-  .map-pin {
-    width: 27px;
-    height: 27px;
-  }
+  /* La ficha aparece sobre el mapa al tocar un punto */
 
-  /* La ficha se convierte en ventana emergente */
   .map-info {
     display: none;
-    position: fixed;
-    z-index: 100;
+    position: fixed !important;
+    z-index: 30;
     top: 50%;
     left: 16px;
     right: 16px;
     width: auto;
-    max-height: 80vh;
-    max-height: 80dvh;
+    max-height: 82vh;
+    max-height: 82dvh;
     overflow-y: auto;
     overscroll-behavior: contain;
     transform: translateY(-50%);
     margin: 0;
     padding: 22px;
-    border-radius: 18px;
     background: white;
-    box-shadow: 0 0 0 100vmax #160d2280,
-                0 10px 40px #24113d55;
+    box-shadow: 0 10px 40px #24113d55;
   }
 
   .map-info.is-open {
@@ -374,17 +364,20 @@ body.ar-active .ar-scene {
     border-radius: 20px;
     background: #24113d;
     color: white;
-    font-size: 13px;
     cursor: pointer;
   }
 
   .map-actions {
     flex-direction: column;
-    align-items: flex-start;
-    padding: 22px;
+    align-items: stretch;
+    gap: 16px;
   }
 
   .map-actions .button {
     width: 100%;
+  }
+
+  .map-note {
+    margin-bottom: 30px;
   }
 }
