@@ -1,6 +1,10 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
 
+  // =====================================
+  // CONFIGURACIÓN Y ELEMENTOS
+  // =====================================
+
   const STORAGE_KEY = "ccu-guardianes-progreso-v1";
   const WAR_KEY = "ccu-guardianes-war-giro-descubierto";
 
@@ -16,27 +20,36 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   let obras = [];
 
+  const infoCard = document.getElementById("map-info");
+  const closeInfoButton = document.getElementById("close-info");
+
   const infoTitle = document.getElementById("info-title");
-
-const infoCard = document.querySelector(".map-info");
-
-const closeInfo = document.createElement("button");
-closeInfo.type = "button";
-closeInfo.className = "map-info-close";
-closeInfo.textContent = "Cerrar ✕";
-
-infoCard.prepend(closeInfo);
-
-closeInfo.addEventListener("click", () => {
-  infoCard.classList.remove("is-open");
-});
-  
   const infoImage = document.getElementById("info-image");
   const infoDescription = document.getElementById("info-description");
   const infoArtist = document.getElementById("info-artist");
   const infoYear = document.getElementById("info-year");
   const infoDetails = document.getElementById("info-details");
   const infoStatus = document.getElementById("info-status");
+
+  // =====================================
+  // CERRAR FICHA DE INFORMACIÓN
+  // =====================================
+
+  function closeInfo() {
+    infoCard.classList.remove("is-open");
+  }
+
+  closeInfoButton.addEventListener("click", closeInfo);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeInfo();
+    }
+  });
+
+  // =====================================
+  // PROGRESO DE LA AVENTURA
+  // =====================================
 
   function getProgress() {
     try {
@@ -47,6 +60,7 @@ closeInfo.addEventListener("click", () => {
           n => Number.isInteger(n) && n >= 0 && n < 5
         );
       }
+
     } catch (error) {
       console.error("No se pudo leer el progreso:", error);
     }
@@ -63,6 +77,10 @@ closeInfo.addEventListener("click", () => {
     return obras.find(obra => obra.missionIndex === index);
   }
 
+  // =====================================
+  // ACTUALIZAR MARCADORES
+  // =====================================
+
   function updatePins() {
     const completed = getProgress();
 
@@ -74,6 +92,7 @@ closeInfo.addEventListener("click", () => {
 
         pin.classList.toggle("is-complete", found);
         pin.classList.toggle("is-final-locked", !found);
+
         return;
       }
 
@@ -84,21 +103,31 @@ closeInfo.addEventListener("click", () => {
     });
   }
 
+  // =====================================
+  // MOSTRAR INFORMACIÓN DE LAS OBRAS
+  // =====================================
+
   function showWork(key) {
 
-if (window.matchMedia("(max-width: 760px)").matches) {
-  infoCard.classList.add("is-open");
-}
-    
+    // En celular abre la ficha como ventana emergente
+    if (window.matchMedia("(max-width: 760px)").matches) {
+      infoCard.classList.add("is-open");
+    }
+
     infoImage.hidden = true;
     infoDetails.hidden = true;
 
-    
+    infoImage.removeAttribute("src");
+
+    // -------------------------------------
+    // WAR GIRO
+    // -------------------------------------
 
     if (key === "wargiro") {
 
       if (!isWarGiroFound()) {
         infoTitle.textContent = "Destino secreto";
+
         infoDescription.textContent =
           "War Giro es el descubrimiento final. " +
           "Completa las cinco misiones y resuelve el último acertijo para encontrarlo.";
@@ -110,6 +139,7 @@ if (window.matchMedia("(max-width: 760px)").matches) {
       }
 
       infoTitle.textContent = "War Giro";
+
       infoDescription.textContent =
         "¡Has encontrado el destino final de Los guardianes del arte! " +
         "Has reunido los cinco fragmentos de la Esencia Creativa.";
@@ -119,16 +149,25 @@ if (window.matchMedia("(max-width: 760px)").matches) {
       infoImage.hidden = false;
 
       infoStatus.textContent = "✧ ¡Destino final descubierto!";
+
       return;
     }
+
+    // -------------------------------------
+    // OBRAS DE LAS CINCO MISIONES
+    // -------------------------------------
 
     const missionIndex = completedWorks[key];
     const obra = getWorkByMission(missionIndex);
 
     if (!obra) {
       infoTitle.textContent = "Obra no disponible";
+
       infoDescription.textContent =
         "No se encontró la información de esta obra.";
+
+      infoStatus.textContent = "";
+
       return;
     }
 
@@ -141,6 +180,7 @@ if (window.matchMedia("(max-width: 760px)").matches) {
 
     infoArtist.textContent = obra.artista || "No disponible";
     infoYear.textContent = obra.anio || "No disponible";
+
     infoDetails.hidden = false;
 
     const done = getProgress().includes(missionIndex);
@@ -150,13 +190,20 @@ if (window.matchMedia("(max-width: 760px)").matches) {
       : `Misión ${missionIndex + 1} · ${getProgress().length}/5 fragmentos reunidos`;
   }
 
+  // =====================================
+  // EVENTOS DE LOS MARCADORES
+  // =====================================
+
   mapPins.forEach(pin => {
     pin.addEventListener("click", () => {
       showWork(pin.dataset.work);
     });
   });
 
-  // Cargar información desde el archivo que ya existe
+  // =====================================
+  // CARGAR INFORMACIÓN DESDE JSON
+  // =====================================
+
   try {
     const response = await fetch("data/obras.json");
 
@@ -170,12 +217,16 @@ if (window.matchMedia("(max-width: 760px)").matches) {
 
   } catch (error) {
     console.error(error);
+
     infoTitle.textContent = "Error al cargar el mapa";
+
     infoDescription.textContent =
       "No fue posible cargar la información de las obras.";
+
+    infoStatus.textContent = "";
   }
 
-  // Actualizar los marcadores si cambia el progreso
+  // Actualizar progreso si cambia en otra página
   window.addEventListener("storage", updatePins);
   window.addEventListener("pageshow", updatePins);
 
@@ -192,6 +243,10 @@ if (window.matchMedia("(max-width: 760px)").matches) {
 
   let arStarted = false;
 
+  // -------------------------------------
+  // INICIAR AR
+  // -------------------------------------
+
   async function startAR() {
 
     document.body.classList.add("ar-active");
@@ -201,6 +256,14 @@ if (window.matchMedia("(max-width: 760px)").matches) {
       "Apunta la cámara hacia el mapa impreso...";
 
     try {
+
+      // Esperar a que A-Frame termine de cargar
+      if (!scene.hasLoaded) {
+        await new Promise(resolve => {
+          scene.addEventListener("loaded", resolve, { once: true });
+        });
+      }
+
       const mindarSystem =
         scene.systems["mindar-image-system"];
 
@@ -213,16 +276,25 @@ if (window.matchMedia("(max-width: 760px)").matches) {
       arStarted = true;
 
     } catch (error) {
+
       console.error("Error al iniciar la cámara:", error);
 
       arStatus.textContent =
         "No se pudo abrir la cámara. Revisa los permisos del navegador.";
+
+      document.body.classList.remove("ar-active");
+      arInterface.setAttribute("aria-hidden", "true");
     }
   }
+
+  // -------------------------------------
+  // DETENER AR
+  // -------------------------------------
 
   async function stopAR() {
 
     try {
+
       const mindarSystem =
         scene.systems["mindar-image-system"];
 
@@ -243,26 +315,33 @@ if (window.matchMedia("(max-width: 760px)").matches) {
   startButton.addEventListener("click", startAR);
   closeButton.addEventListener("click", stopAR);
 
-  // Cuando MindAR reconoce el mapa
+  // -------------------------------------
+  // DETECCIÓN DEL MAPA IMPRESO
+  // -------------------------------------
+
   mapTarget.addEventListener("targetFound", () => {
     arStatus.textContent =
       "✧ ¡Mapa reconocido! Explora los puntos de interés.";
   });
 
-  // Cuando deja de reconocerlo
   mapTarget.addEventListener("targetLost", () => {
     arStatus.textContent =
       "Busca nuevamente el mapa impreso con la cámara.";
   });
 
-  // Cerrar cámara si se abandona la página
+  // -------------------------------------
+  // CERRAR CÁMARA AL ABANDONAR LA PÁGINA
+  // -------------------------------------
+
   document.addEventListener("visibilitychange", () => {
+
     if (
       document.hidden &&
       document.body.classList.contains("ar-active")
     ) {
       stopAR();
     }
+
   });
 
 });
