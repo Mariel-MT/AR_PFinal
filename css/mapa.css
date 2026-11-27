@@ -557,3 +557,33 @@ body.map-page.ar-active .ar-topbar {
 .ar-guide.is-hidden {
   display: none !important;
 }
+
+
+
+/* =====================================
+   VIDEO DE CÁMARA MINDAR
+===================================== */
+
+body.ar-active video {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 9997 !important;
+}
+
+/* Escena AR transparente y encima del video */
+body.ar-active #ar-scene {
+  background: transparent !important;
+  z-index: 9998 !important;
+}
+
+/* Lienzo de A-Frame transparente */
+body.ar-active #ar-scene canvas {
+  background: transparent !important;
+  z-index: 9998 !important;
+}
+
+/* Interfaz AR por encima de la cámara */
+body.ar-active #ar-interface {
+  background: transparent !important;
+}
