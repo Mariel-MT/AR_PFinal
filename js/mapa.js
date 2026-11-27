@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const infoYear = document.getElementById("info-year");
   const infoDetails = document.getElementById("info-details");
   const infoStatus = document.getElementById("info-status");
-
   const closeInfo = document.getElementById("close-info");
 
   // Cerrar la ficha de información
@@ -67,12 +66,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       localStorage.getItem(WAR_KEY) === "true";
   }
 
-  // Buscar obra por número de misión
-function getWorkByMission(index) {
-  return obras.find(
-    obra => Number(obra.missionIndex) === Number(index)
-  );
-}
+  // =====================================
+  // BUSCAR OBRA POR NÚMERO DE MISIÓN
+  // =====================================
+
+  function getWorkByMission(index) {
+    return obras.find(
+      obra => Number(obra.missionIndex) === Number(index)
+    );
+  }
 
   // =====================================
   // ACTUALIZAR APARIENCIA DE MARCADORES
@@ -126,7 +128,7 @@ function getWorkByMission(index) {
           "Completa las cinco misiones y resuelve el último acertijo para encontrarlo.";
 
         infoStatus.textContent =
-          Progreso: ${getProgress().length}/5 misiones completadas;
+          `Progreso: ${getProgress().length}/5 misiones completadas`;
 
         return;
       }
@@ -180,7 +182,7 @@ function getWorkByMission(index) {
 
     infoStatus.textContent = done
       ? "✓ Misión completada · Fragmento conseguido"
-      : Misión ${missionIndex + 1} · ${getProgress().length}/5 fragmentos reunidos;
+      : `Misión ${missionIndex + 1} · ${getProgress().length}/5 fragmentos reunidos`;
   }
 
   // =====================================
@@ -273,7 +275,6 @@ function getWorkByMission(index) {
       arStarted = true;
 
     } catch (error) {
-
       console.error("Error al iniciar la cámara:", error);
 
       arStatus.textContent =
@@ -297,7 +298,6 @@ function getWorkByMission(index) {
       }
 
     } catch (error) {
-
       console.warn("No se pudo detener la cámara:", error);
     }
 
@@ -311,7 +311,10 @@ function getWorkByMission(index) {
     arGuide.classList.remove("is-hidden");
   }
 
-  // Botones de realidad aumentada
+  // =====================================
+  // BOTONES DE REALIDAD AUMENTADA
+  // =====================================
+
   startButton.addEventListener("click", startAR);
   closeButton.addEventListener("click", stopAR);
 
