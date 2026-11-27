@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="es">
 <head>
@@ -9,7 +10,6 @@
   <link rel="stylesheet" href="css/estilos.css">
   <link rel="stylesheet" href="css/mapa.css">
 
-  <!-- Las mismas versiones que utiliza tu escáner -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
@@ -53,25 +53,45 @@
         >
 
         <button class="map-pin pin-bailarina"
-          data-work="bailarina" aria-label="La Bailarina"></button>
+          type="button"
+          data-work="bailarina"
+          aria-label="La Bailarina"></button>
 
         <button class="map-pin pin-mariposa"
-          data-work="mariposa" aria-label="La Mariposa"></button>
+          type="button"
+          data-work="mariposa"
+          aria-label="La Mariposa"></button>
 
         <button class="map-pin pin-libelula"
-          data-work="libelula" aria-label="La Libélula"></button>
+          type="button"
+          data-work="libelula"
+          aria-label="La Libélula"></button>
 
         <button class="map-pin pin-vigilante"
-          data-work="vigilante" aria-label="El Vigilante"></button>
+          type="button"
+          data-work="vigilante"
+          aria-label="El Vigilante"></button>
 
         <button class="map-pin pin-tiempo"
-          data-work="tiempo" aria-label="El Tiempo"></button>
+          type="button"
+          data-work="tiempo"
+          aria-label="El Tiempo"></button>
 
         <button class="map-pin pin-wargiro"
-          data-work="wargiro" aria-label="War Giro"></button>
+          type="button"
+          data-work="wargiro"
+          aria-label="War Giro"></button>
       </div>
 
-      <aside class="map-info" aria-live="polite">
+      <aside class="map-info" id="map-info" aria-live="polite">
+
+        <button
+          class="map-info-close"
+          id="close-info"
+          type="button"
+          aria-label="Cerrar información">
+          Cerrar ✕
+        </button>
 
         <p class="eyebrow">PUNTO DE INTERÉS</p>
 
@@ -160,7 +180,6 @@
       look-controls="enabled: false">
     </a-camera>
 
-    <!-- El target del mapa impreso -->
     <a-entity
       id="map-target"
       mindar-image-target="targetIndex: 0">
@@ -168,55 +187,79 @@
       <!-- La Bailarina: azul -->
       <a-entity position="-0.109 0.842 0.04">
         <a-sphere radius="0.035" color="#1689e8"></a-sphere>
-        <a-text value="La Bailarina"
+        <a-text
+          value="La Bailarina"
           position="0 -0.09 0"
-          align="center" color="#ffffff"
-          width="1.1" side="double"></a-text>
+          align="center"
+          color="#ffffff"
+          width="1.1"
+          side="double">
+        </a-text>
       </a-entity>
 
       <!-- La Mariposa: verde -->
       <a-entity position="-0.170 0.785 0.04">
         <a-sphere radius="0.035" color="#21a65b"></a-sphere>
-        <a-text value="La Mariposa"
+        <a-text
+          value="La Mariposa"
           position="0 -0.09 0"
-          align="center" color="#ffffff"
-          width="1.1" side="double"></a-text>
+          align="center"
+          color="#ffffff"
+          width="1.1"
+          side="double">
+        </a-text>
       </a-entity>
 
       <!-- La Libélula: naranja -->
       <a-entity position="-0.033 0 0.04">
         <a-sphere radius="0.035" color="#f28b25"></a-sphere>
-        <a-text value="La Libelula"
+        <a-text
+          value="La Libélula"
           position="0 -0.09 0"
-          align="center" color="#ffffff"
-          width="1.1" side="double"></a-text>
+          align="center"
+          color="#ffffff"
+          width="1.1"
+          side="double">
+        </a-text>
       </a-entity>
 
       <!-- El Vigilante: morado -->
       <a-entity position="-0.050 -0.764 0.04">
         <a-sphere radius="0.035" color="#8c45bd"></a-sphere>
-        <a-text value="El Vigilante"
+        <a-text
+          value="El Vigilante"
           position="0 -0.09 0"
-          align="center" color="#ffffff"
-          width="1.1" side="double"></a-text>
+          align="center"
+          color="#ffffff"
+          width="1.1"
+          side="double">
+        </a-text>
       </a-entity>
 
       <!-- El Tiempo: rojo -->
       <a-entity position="-0.218 0.563 0.04">
         <a-sphere radius="0.035" color="#e33e48"></a-sphere>
-        <a-text value="El Tiempo"
+        <a-text
+          value="El Tiempo"
           position="0 -0.09 0"
-          align="center" color="#ffffff"
-          width="1.1" side="double"></a-text>
+          align="center"
+          color="#ffffff"
+          width="1.1"
+          side="double">
+        </a-text>
       </a-entity>
 
       <!-- War Giro: amarillo -->
       <a-entity position="-0.209 0.849 0.04">
         <a-sphere radius="0.035" color="#f3cb25"></a-sphere>
-        <a-text value="War Giro"
+        <a-text
+          value="War Giro"
           position="0 -0.09 0"
-          align="center" color="#ffffff"
-          width="1.1" side="double"></a-text>
+          align="center"
+          color="#ffffff"
+          width="1.1"
+          side="double">
+        </a-text>
       </a-entity>
 
     </a-entity>
