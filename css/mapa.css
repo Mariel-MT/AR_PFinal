@@ -442,6 +442,7 @@ body.ar-active .ar-scene {
     margin-bottom: 30px;
   }
 }
+
 /* =====================================
    MODO CÁMARA AR: OCULTAR PÁGINA
 ===================================== */
@@ -493,6 +494,7 @@ body.map-page.ar-active .ar-interface {
 ===================================== */
 
 /* Fondo oscuro cuando se activa la cámara */
+
 html:has(body.map-page.ar-active),
 body.map-page.ar-active {
   background: #000 !important;
@@ -501,6 +503,7 @@ body.map-page.ar-active {
 }
 
 /* Ocultar completamente la página normal */
+
 body.map-page.ar-active > .site-header,
 body.map-page.ar-active > .map-main,
 body.map-page.ar-active > footer {
@@ -508,6 +511,7 @@ body.map-page.ar-active > footer {
 }
 
 /* La escena AR ocupa toda la pantalla */
+
 body.map-page.ar-active #ar-scene {
   position: fixed !important;
   top: 0 !important;
@@ -525,6 +529,7 @@ body.map-page.ar-active #ar-scene {
 }
 
 /* El lienzo de A-Frame ocupa toda la pantalla */
+
 body.map-page.ar-active #ar-scene canvas {
   position: absolute !important;
   top: 0 !important;
@@ -534,6 +539,7 @@ body.map-page.ar-active #ar-scene canvas {
 }
 
 /* Interfaz y botón Cerrar por encima de la cámara */
+
 body.map-page.ar-active .ar-interface {
   display: block !important;
   position: fixed !important;
@@ -547,6 +553,7 @@ body.map-page.ar-active .ar-topbar {
 }
 
 /* Ocultar las instrucciones cuando se reconoce el mapa */
+
 .ar-guide.is-hidden {
   display: none !important;
 }
