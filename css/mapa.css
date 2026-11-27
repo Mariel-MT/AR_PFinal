@@ -271,4 +271,56 @@ body.ar-active .ar-scene {
   .map-actions .button {
     width: 100%;
   }
+
+/* Correcciones para desplazamiento en celular */
+html,
+body {
+  height: auto !important;
+  min-height: 100%;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
 }
+
+.map-main {
+  height: auto !important;
+  min-height: 100vh;
+  overflow: visible !important;
+}
+
+.map-layout {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.map-frame {
+  height: auto !important;
+}
+
+.map-image {
+  width: 100%;
+  height: auto !important;
+  object-fit: contain;
+}
+
+@media (max-width: 760px) {
+  .map-main {
+    padding: 25px 12px 50px;
+  }
+
+  .map-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .map-frame,
+  .map-info {
+    width: 100%;
+  }
+
+  .map-info {
+    position: relative !important;
+    margin-top: 15px;
+  }
+}
+
