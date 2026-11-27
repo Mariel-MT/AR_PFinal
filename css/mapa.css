@@ -322,5 +322,38 @@ body {
     position: relative !important;
     margin-top: 15px;
   }
+
+  
+/* Ficha emergente para celulares */
+@media (max-width: 760px) {
+  .map-info {
+    display: none;
+    position: fixed !important;
+    z-index: 30;
+    left: 14px;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    max-height: 80dvh;
+    overflow-y: auto;
+    margin: 0;
+    box-shadow: 0 10px 40px #24113d55;
+  }
+
+  .map-info.is-open {
+    display: block;
+  }
+
+  .map-info-close {
+    display: block;
+    margin-left: auto;
+    padding: 9px 14px;
+    border: 0;
+    border-radius: 20px;
+    background: #24113d;
+    color: white;
+    cursor: pointer;
+  }
 }
+
 
