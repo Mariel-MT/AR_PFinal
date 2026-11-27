@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="es">
 <head>
@@ -54,23 +53,47 @@
           class="map-image"
         >
 
-        <button class="map-pin pin-bailarina" type="button"
-          data-work="bailarina" aria-label="La Bailarina"></button>
+        <button
+          class="map-pin pin-bailarina"
+          type="button"
+          data-work="bailarina"
+          aria-label="La Bailarina">
+        </button>
 
-        <button class="map-pin pin-mariposa" type="button"
-          data-work="mariposa" aria-label="La Mariposa"></button>
+        <button
+          class="map-pin pin-mariposa"
+          type="button"
+          data-work="mariposa"
+          aria-label="La Mariposa">
+        </button>
 
-        <button class="map-pin pin-libelula" type="button"
-          data-work="libelula" aria-label="La Libélula"></button>
+        <button
+          class="map-pin pin-libelula"
+          type="button"
+          data-work="libelula"
+          aria-label="La Libélula">
+        </button>
 
-        <button class="map-pin pin-vigilante" type="button"
-          data-work="vigilante" aria-label="El Vigilante"></button>
+        <button
+          class="map-pin pin-vigilante"
+          type="button"
+          data-work="vigilante"
+          aria-label="El Vigilante">
+        </button>
 
-        <button class="map-pin pin-tiempo" type="button"
-          data-work="tiempo" aria-label="El Tiempo"></button>
+        <button
+          class="map-pin pin-tiempo"
+          type="button"
+          data-work="tiempo"
+          aria-label="El Tiempo">
+        </button>
 
-        <button class="map-pin pin-wargiro" type="button"
-          data-work="wargiro" aria-label="War Giro"></button>
+        <button
+          class="map-pin pin-wargiro"
+          type="button"
+          data-work="wargiro"
+          aria-label="War Giro">
+        </button>
 
       </div>
 
@@ -116,7 +139,7 @@
           ✧ Seis puntos por descubrir
         </p>
 
-        <a href="aventura.html" class="text-link" id="info-link">
+        <a href="aventura.html" class="text-link">
           Consultar progreso de la aventura →
         </a>
 
@@ -166,49 +189,6 @@
       <p>Apunta al mapa impreso completo</p>
     </div>
 
-    <!-- Mensaje para obras bloqueadas -->
-    <div class="ar-mystery-message" id="ar-mystery-message" hidden>
-      Esta obra aún es un misterio.
-      ¡Continúa tu aventura para descubrirla!
-    </div>
-
-    <!-- Ficha de obra descubierta -->
-    <section class="ar-art-card" id="ar-art-card" aria-live="polite" hidden>
-
-      <button
-        type="button"
-        class="ar-card-close"
-        id="close-ar-card"
-        aria-label="Cerrar información">
-        ✕
-      </button>
-
-      <p class="eyebrow">OBRA DESCUBIERTA</p>
-
-      <h2 id="ar-card-title"></h2>
-
-      <img id="ar-card-image" alt="" hidden>
-
-      <p id="ar-card-description"></p>
-
-      <div id="ar-card-details" hidden>
-        <p>
-          <strong>Artista:</strong>
-          <span id="ar-card-artist"></span>
-        </p>
-
-        <p>
-          <strong>Año:</strong>
-          <span id="ar-card-year"></span>
-        </p>
-      </div>
-
-      <a href="aventura.html" class="text-link" id="ar-card-link">
-        Consultar misión →
-      </a>
-
-    </section>
-
   </div>
 
   <!-- Escena de realidad aumentada -->
@@ -231,31 +211,19 @@
 
     <a-camera
       position="0 0 0"
-      look-controls="enabled: false"
-      cursor="rayOrigin: mouse; fuse: false"
-      raycaster="objects: .ar-marker-hitbox">
+      look-controls="enabled: false">
     </a-camera>
 
     <a-entity
       id="map-target"
       mindar-image-target="targetIndex: 0">
 
-      <!-- La Bailarina -->
-      <a-entity
-        class="ar-marker"
-        data-work="bailarina"
-        data-color="#1689e8"
-        position="-0.109 0.842 0.04">
-
-        <a-sphere
-          class="ar-marker-sphere ar-marker-hitbox"
-          radius="0.035"
-          color="#000000">
-        </a-sphere>
+      <!-- La Bailarina: azul -->
+      <a-entity position="-0.109 0.842 0.04">
+        <a-sphere radius="0.035" color="#1689e8"></a-sphere>
 
         <a-text
-          class="ar-marker-label"
-          value="?"
+          value="La Bailarina"
           position="0 -0.09 0"
           align="center"
           color="#ffffff"
@@ -264,22 +232,12 @@
         </a-text>
       </a-entity>
 
-      <!-- La Mariposa -->
-      <a-entity
-        class="ar-marker"
-        data-work="mariposa"
-        data-color="#21a65b"
-        position="-0.170 0.785 0.04">
-
-        <a-sphere
-          class="ar-marker-sphere ar-marker-hitbox"
-          radius="0.035"
-          color="#000000">
-        </a-sphere>
+      <!-- La Mariposa: verde -->
+      <a-entity position="-0.170 0.785 0.04">
+        <a-sphere radius="0.035" color="#21a65b"></a-sphere>
 
         <a-text
-          class="ar-marker-label"
-          value="?"
+          value="La Mariposa"
           position="0 -0.09 0"
           align="center"
           color="#ffffff"
@@ -288,22 +246,12 @@
         </a-text>
       </a-entity>
 
-      <!-- La Libélula -->
-      <a-entity
-        class="ar-marker"
-        data-work="libelula"
-        data-color="#f28b25"
-        position="-0.033 0 0.04">
-
-        <a-sphere
-          class="ar-marker-sphere ar-marker-hitbox"
-          radius="0.035"
-          color="#000000">
-        </a-sphere>
+      <!-- La Libélula: naranja -->
+      <a-entity position="-0.033 0 0.04">
+        <a-sphere radius="0.035" color="#f28b25"></a-sphere>
 
         <a-text
-          class="ar-marker-label"
-          value="?"
+          value="La Libélula"
           position="0 -0.09 0"
           align="center"
           color="#ffffff"
@@ -312,22 +260,12 @@
         </a-text>
       </a-entity>
 
-      <!-- El Vigilante -->
-      <a-entity
-        class="ar-marker"
-        data-work="vigilante"
-        data-color="#8c45bd"
-        position="-0.050 -0.764 0.04">
-
-        <a-sphere
-          class="ar-marker-sphere ar-marker-hitbox"
-          radius="0.035"
-          color="#000000">
-        </a-sphere>
+      <!-- El Vigilante: morado -->
+      <a-entity position="-0.050 -0.764 0.04">
+        <a-sphere radius="0.035" color="#8c45bd"></a-sphere>
 
         <a-text
-          class="ar-marker-label"
-          value="?"
+          value="El Vigilante"
           position="0 -0.09 0"
           align="center"
           color="#ffffff"
@@ -336,22 +274,12 @@
         </a-text>
       </a-entity>
 
-      <!-- El Tiempo -->
-      <a-entity
-        class="ar-marker"
-        data-work="tiempo"
-        data-color="#e33e48"
-        position="-0.218 0.563 0.04">
-
-        <a-sphere
-          class="ar-marker-sphere ar-marker-hitbox"
-          radius="0.035"
-          color="#000000">
-        </a-sphere>
+      <!-- El Tiempo: rojo -->
+      <a-entity position="-0.218 0.563 0.04">
+        <a-sphere radius="0.035" color="#e33e48"></a-sphere>
 
         <a-text
-          class="ar-marker-label"
-          value="?"
+          value="El Tiempo"
           position="0 -0.09 0"
           align="center"
           color="#ffffff"
@@ -360,22 +288,12 @@
         </a-text>
       </a-entity>
 
-      <!-- War Giro: recompensa final -->
-      <a-entity
-        class="ar-marker"
-        data-work="wargiro"
-        data-color="#f3cb25"
-        position="-0.209 0.849 0.04">
-
-        <a-sphere
-          class="ar-marker-sphere ar-marker-hitbox"
-          radius="0.035"
-          color="#000000">
-        </a-sphere>
+      <!-- War Giro: amarillo -->
+      <a-entity position="-0.209 0.849 0.04">
+        <a-sphere radius="0.035" color="#f3cb25"></a-sphere>
 
         <a-text
-          class="ar-marker-label"
-          value="?"
+          value="War Giro"
           position="0 -0.09 0"
           align="center"
           color="#ffffff"
