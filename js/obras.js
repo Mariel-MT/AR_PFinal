@@ -1,6 +1,5 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
-
   const grid = document.getElementById("works-grid");
   const STORAGE_KEY = "ccu-guardianes-progreso-v1";
 
@@ -9,11 +8,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
       if (saved && Array.isArray(saved.completed)) {
-        return [...new Set(
-          saved.completed.filter(
-            n => Number.isInteger(n) && n >= 0 && n < 5
+        return [
+          ...new Set(
+            saved.completed.filter(
+              n => Number.isInteger(n) && n >= 0 && n < 5
+            )
           )
-        )];
+        ];
       }
     } catch (error) {
       console.error("No se pudo leer el progreso:", error);
@@ -45,7 +46,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   try {
-
     const response = await fetch("data/obras.json");
 
     if (!response.ok) {
@@ -69,33 +69,58 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    grid.innerHTML = unlockedWorks.map(obra => `
-      <article class="work-card">
-        <div class="work-placeholder" aria-hidden="true">✳</div>
+    grid.innerHTML = unlockedWorks.map(obra => {
+      const titulo = obra.titulo || "Obra sin título";
+      const imagen = obra.imagen || "";
 
-        <span class="work-tag">
-          ${escapeHTML(obra.tipo || "Obra")}
-        </span>
+      const imageHTML = imagen
+        ? `
+          <img
+            class="work-image"
+            src="${escapeHTML(imagen)}"
+            alt="Imagen de ${escapeHTML(titulo)}"
+            loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+          >
+          <div class="work-placeholder" aria-hidden="true" style="display:none;">
+            ✳
+          </div>
+        `
+        : `
+          <div class="work-placeholder" aria-hidden="true">
+            ✳
+          </div>
+        `;
 
-        <h2>${escapeHTML(obra.titulo || "Obra sin título")}</h2>
+      return `
+        <article class="work-card">
+          <div class="work-image-container">
+            ${imageHTML}
+          </div>
 
-        <p>${escapeHTML(obra.artista || "Autor no identificado")}</p>
+          <span class="work-tag">
+            ${escapeHTML(obra.tipo || "Obra")}
+          </span>
 
-        <p>
-          ${escapeHTML(obra.tecnica || "Técnica no disponible")}
-          ·
-          ${escapeHTML(obra.anio || "Fecha no disponible")}
-        </p>
+          <h2>${escapeHTML(titulo)}</h2>
 
-        <p>${escapeHTML(obra.descripcion || "")}</p>
-      </article>
-    `).join("");
+          <p>${escapeHTML(obra.artista || "Autor no identificado")}</p>
+
+          <p>
+            ${escapeHTML(obra.tecnica || "Técnica no disponible")}
+            ·
+            ${escapeHTML(obra.anio || "Fecha no disponible")}
+          </p>
+
+          <p>${escapeHTML(obra.descripcion || "")}</p>
+        </article>
+      `;
+    }).join("");
 
   } catch (error) {
-
     console.error(error);
+
     grid.textContent =
       "No fue posible cargar el catálogo. Intenta recargar la página.";
-
   }
 });
