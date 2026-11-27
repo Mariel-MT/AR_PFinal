@@ -544,6 +544,7 @@
     document.getElementById("final").classList.toggle(
       "show",
       count === 5
+      localStorage.getItem("ccu-guardianes-war-giro-descubierto") === "true"
     );
 
     renderMissions();
@@ -587,6 +588,7 @@
     completed = [];
 
     localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem("ccu-guardianes-war-giro-descubierto");
 
     updateInterface();
 
