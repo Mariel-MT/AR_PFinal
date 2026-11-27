@@ -26,19 +26,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const infoDetails = document.getElementById("info-details");
   const infoStatus = document.getElementById("info-status");
 
-  // Botón para cerrar la ficha
-  const closeInfo = document.createElement("button");
-  closeInfo.type = "button";
-  closeInfo.className = "map-info-close";
-  closeInfo.textContent = "Cerrar ✕";
-  closeInfo.setAttribute("aria-label", "Cerrar información de la obra");
-
-  infoCard.prepend(closeInfo);
-
-  closeInfo.addEventListener("click", () => {
-    infoCard.classList.remove("is-open");
-  });
-
   // Leer progreso guardado
   function getProgress() {
     try {
