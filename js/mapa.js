@@ -26,6 +26,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   const infoDetails = document.getElementById("info-details");
   const infoStatus = document.getElementById("info-status");
 
+  // Botón de cierre que ya existe en mapa.html
+const closeInfo = document.getElementById("close-info");
+
+closeInfo.addEventListener("click", () => {
+  infoCard.classList.remove("is-open");
+});
+
+
+  
   // Leer progreso guardado
   function getProgress() {
     try {
