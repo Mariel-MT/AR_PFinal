@@ -225,3 +225,132 @@ body.map-page.ar-active .ar-topbar {
   }
 
 }
+
+
+/* =====================================
+   CORRECCIÓN DEL MAPA Y DESPLAZAMIENTO
+===================================== */
+
+/* Recuperar el desplazamiento normal */
+html,
+body {
+  scroll-behavior: auto;
+}
+
+html:not(:has(body.ar-active)),
+body.map-page:not(.ar-active) {
+  height: auto !important;
+  min-height: 100%;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+/* Evitar que la imagen se agrande o se recorte */
+.map-main {
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+.map-layout {
+  height: auto !important;
+  overflow: visible !important;
+  align-items: start;
+}
+
+.map-frame {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: 563px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: auto !important;
+  overflow: visible !important;
+}
+
+.map-image {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+}
+
+/* Recuperar visibilidad de los seis puntos */
+.map-pin {
+  display: block !important;
+  position: absolute !important;
+  z-index: 10 !important;
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  min-height: 28px !important;
+  border: 3px solid #ffffff !important;
+  border-radius: 50% !important;
+  box-shadow: 0 2px 9px #24113d99 !important;
+  cursor: pointer !important;
+}
+
+/* Puntos todavía no descubiertos: blanco con borde morado */
+.map-pin.is-locked {
+  background: #ffffff !important;
+  border: 3px solid #6d3ca0 !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* Puntos descubiertos: recuperar sus colores */
+.pin-bailarina.is-complete {
+  background: #1689e8 !important;
+}
+
+.pin-mariposa.is-complete {
+  background: #21a65b !important;
+}
+
+.pin-libelula.is-complete {
+  background: #f28b25 !important;
+}
+
+.pin-vigilante.is-complete {
+  background: #8c45bd !important;
+}
+
+.pin-tiempo.is-complete {
+  background: #e33e48 !important;
+}
+
+.pin-wargiro.is-complete {
+  background: #f3cb25 !important;
+}
+
+/* En AR sí se bloquea el scroll */
+html:has(body.map-page.ar-active),
+body.map-page.ar-active {
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+/* En celular conservar el mapa completo */
+@media (max-width: 760px) {
+  .map-frame {
+    width: 100% !important;
+    max-width: 563px !important;
+    margin: 0 auto !important;
+  }
+
+  .map-image {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .map-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: visible !important;
+  }
+}
+
+
