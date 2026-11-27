@@ -39,3 +39,28 @@ main{max-width:1120px;margin:auto;padding:0 28px}.hero{padding:clamp(70px,12vw,1
     max-height: 250px;
   }
 }
+/* Tamaño uniforme de las imágenes del catálogo */
+.work-image-container {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin-bottom: 18px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #eee5f5, #f7dce9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.work-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.work-image-container .work-placeholder {
+  width: 100%;
+  height: 100%;
+}
