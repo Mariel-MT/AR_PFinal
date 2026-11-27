@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", async () => {
 
   const STORAGE_KEY = "ccu-guardianes-progreso-v1";
@@ -105,8 +104,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function showWork(key) {
 
-    // Mostrar la ficha al seleccionar cualquier marcador
-    infoCard.classList.add("is-open");
+    // En celular, abrir la ficha emergente
+    if (window.matchMedia("(max-width: 760px)").matches) {
+      infoCard.classList.add("is-open");
+    }
 
     infoImage.hidden = true;
     infoDetails.hidden = true;
@@ -229,7 +230,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const closeButton = document.getElementById("close-ar");
   const arInterface = document.getElementById("ar-interface");
   const arStatus = document.getElementById("ar-status");
-  const arGuide = document.querySelector(".ar-guide");
   const mapTarget = document.getElementById("map-target");
 
   let arStarted = false;
@@ -242,9 +242,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     document.body.classList.add("ar-active");
     arInterface.setAttribute("aria-hidden", "false");
-
-    // Restablecer las instrucciones al abrir la cámara
-    arGuide.classList.remove("is-hidden");
 
     arStatus.textContent =
       "Apunta la cámara hacia el mapa impreso...";
@@ -305,9 +302,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.body.classList.remove("ar-active");
 
     arInterface.setAttribute("aria-hidden", "true");
-
-    // Preparar las instrucciones para la próxima apertura
-    arGuide.classList.remove("is-hidden");
   }
 
   // Botones de realidad aumentada
@@ -323,22 +317,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     arStatus.textContent =
       "✧ ¡Mapa reconocido! Explora los puntos de interés.";
 
-    // Ocultar las instrucciones de encuadre
-    arGuide.classList.add("is-hidden");
-
   });
 
-  // =====================================
-  // CUANDO MINDAR PIERDE EL MAPA
-  // =====================================
-
+  // Cuando deja de reconocerlo
   mapTarget.addEventListener("targetLost", () => {
 
     arStatus.textContent =
       "Busca nuevamente el mapa impreso con la cámara.";
-
-    // Volver a mostrar las instrucciones
-    arGuide.classList.remove("is-hidden");
 
   });
 
