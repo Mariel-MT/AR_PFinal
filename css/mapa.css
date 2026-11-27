@@ -354,6 +354,25 @@ body {
     color: white;
     cursor: pointer;
   }
+
+  
+/* Mostrar el mapa completo */
+.map-frame {
+  width: 100%;
+  max-width: 100%;
+  height: auto !important;
+  overflow: visible;
 }
+
+.map-image {
+  display: block;
+  width: 100%;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain;
+}
+
+}
+  
 
 
