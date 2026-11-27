@@ -68,9 +68,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Buscar obra por número de misión
-  function getWorkByMission(index) {
-    return obras.find(obra => obra.missionIndex === index);
-  }
+function getWorkByMission(index) {
+  return obras.find(
+    obra => Number(obra.missionIndex) === Number(index)
+  );
+}
 
   // =====================================
   // ACTUALIZAR APARIENCIA DE MARCADORES
