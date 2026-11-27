@@ -17,6 +17,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   let obras = [];
 
   const infoTitle = document.getElementById("info-title");
+
+const infoCard = document.querySelector(".map-info");
+
+const closeInfo = document.createElement("button");
+closeInfo.type = "button";
+closeInfo.className = "map-info-close";
+closeInfo.textContent = "Cerrar ✕";
+
+infoCard.prepend(closeInfo);
+
+closeInfo.addEventListener("click", () => {
+  infoCard.classList.remove("is-open");
+});
+  
   const infoImage = document.getElementById("info-image");
   const infoDescription = document.getElementById("info-description");
   const infoArtist = document.getElementById("info-artist");
@@ -72,8 +86,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function showWork(key) {
 
+if (window.matchMedia("(max-width: 760px)").matches) {
+  infoCard.classList.add("is-open");
+}
+    
     infoImage.hidden = true;
     infoDetails.hidden = true;
+
+    
 
     if (key === "wargiro") {
 
