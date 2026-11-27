@@ -610,6 +610,13 @@
       top: 0,
       behavior: "smooth"
     });
+   });
+
+  window.addEventListener("pageshow", () => {
+    if (obras.length > 0) {
+      normalizeProgress();
+      updateInterface();
+    }
   });
 
   init();
