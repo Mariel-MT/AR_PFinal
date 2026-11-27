@@ -1,3 +1,4 @@
+
 [
   {
     "targetIndex": 0,
@@ -10,6 +11,7 @@
     "ubicacion": "CCU BUAP",
     "descripcion": "Una figura escultórica que representa el movimiento y la expresión del cuerpo. Su presencia inicia el recorrido de Los guardianes del arte.",
     "enlace": "catalogo.html",
+    "imagen": "img/obras/bailarina.jpg",
     "acertijo": "Soy un insecto gigante pintado de fuego, tengo cuatro alas de hierro que nunca echan vuelo. ¿Quién soy?",
     "pista": "Es un insecto con alas.",
     "respuestas": [
@@ -28,6 +30,7 @@
     "ubicacion": "CCU BUAP",
     "descripcion": "Una escultura de metal que representa una libélula mediante formas y cortes que construyen sus alas.",
     "enlace": "catalogo.html",
+    "imagen": "img/obras/libelula.jpg",
     "acertijo": "Mis alas son de metal, pero parecen vitral; llena de puntos y rayas, doy la bienvenida al entrar. ¿Quién soy?",
     "pista": "Es una mariposa colorida relacionada con el artista Romero Britto.",
     "respuestas": [
@@ -47,6 +50,7 @@
     "ubicacion": "CCU BUAP",
     "descripcion": "Una mariposa de formas geométricas y colores vibrantes que refleja el lenguaje visual Neo-Pop característico de Romero Britto.",
     "enlace": "catalogo.html",
+    "imagen": "img/obras/garden-butterfly.jpg",
     "acertijo": "Soy un ángel sin reloj que vive en un cubo de metal; todos me sienten pasar, pero nadie me puede atrapar. ¿Qué obra soy?",
     "pista": "Es algo que avanza constantemente y no se puede detener.",
     "respuestas": [
@@ -65,6 +69,7 @@
     "ubicacion": "CCU BUAP",
     "descripcion": "Una obra escultórica que invita a reflexionar sobre el paso del tiempo y aquello que, aunque no podemos tocar, está presente en nuestra vida.",
     "enlace": "catalogo.html",
+    "imagen": "img/obras/el-tiempo.jpg",
     "acertijo": "Soy un hombrecito blanco que sostiene al mundo entero; sin decir una palabra, hago guardia en lo alto del sendero. ¿Qué obra soy?",
     "pista": "Es un personaje que vigila desde lo alto.",
     "respuestas": [
@@ -83,6 +88,7 @@
     "ubicacion": "CCU BUAP",
     "descripcion": "Una figura que parece observar y proteger su entorno. Su acertijo conduce al destino final de la aventura.",
     "enlace": "catalogo.html",
+    "imagen": "img/obras/el-vigilante.jpg",
     "acertijo": "Llevo la palabra guerra en mi nombre y el plumaje de un guerrero; mi cresta es de metal oscuro y en el andador del CCU soy el primero. ¿Quién soy?",
     "pista": "Su nombre combina una palabra en inglés relacionada con la guerra y la palabra Giro.",
     "respuestas": [
