@@ -12,12 +12,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     vigilante: 4
   };
 
+  const workNames = {
+    bailarina: "La Bailarina",
+    libelula: "La Libélula",
+    mariposa: "La Mariposa",
+    tiempo: "El Tiempo",
+    vigilante: "El Vigilante",
+    wargiro: "War Giro"
+  };
+
   const mapPins = document.querySelectorAll(".map-pin");
+  const arMarkers = document.querySelectorAll(".ar-marker");
 
   let obras = [];
 
   // =====================================
-  // ELEMENTOS DE LA FICHA
+  // ELEMENTOS DE LA FICHA DEL MAPA
   // =====================================
 
   const infoTitle = document.getElementById("info-title");
@@ -28,10 +38,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   const infoYear = document.getElementById("info-year");
   const infoDetails = document.getElementById("info-details");
   const infoStatus = document.getElementById("info-status");
+  const infoLink = document.getElementById("info-link");
 
   const closeInfo = document.getElementById("close-info");
 
-  // Cerrar la ficha de información
   if (closeInfo && infoCard) {
     closeInfo.addEventListener("click", () => {
       infoCard.classList.remove("is-open");
@@ -39,17 +49,52 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // =====================================
+  // ELEMENTOS DE LA INTERFAZ AR
+  // =====================================
+
+  const arMysteryMessage =
+    document.getElementById("ar-mystery-message");
+
+  const arArtCard =
+    document.getElementById("ar-art-card");
+
+  const arCardTitle =
+    document.getElementById("ar-card-title");
+
+  const arCardImage =
+    document.getElementById("ar-card-image");
+
+  const arCardDescription =
+    document.getElementById("ar-card-description");
+
+  const arCardArtist =
+    document.getElementById("ar-card-artist");
+
+  const arCardYear =
+    document.getElementById("ar-card-year");
+
+  const arCardDetails =
+    document.getElementById("ar-card-details");
+
+  const closeArCard =
+    document.getElementById("close-ar-card");
+
+  // =====================================
   // LEER PROGRESO GUARDADO
   // =====================================
 
   function getProgress() {
     try {
-      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      const saved = JSON.parse(
+        localStorage.getItem(STORAGE_KEY)
+      );
 
       if (saved && Array.isArray(saved.completed)) {
-        return saved.completed.filter(
-          n => Number.isInteger(n) && n >= 0 && n < 5
-        );
+        return [...new Set(
+          saved.completed.filter(
+            n => Number.isInteger(n) && n >= 0 && n < 5
+          )
+        )];
       }
 
     } catch (error) {
@@ -68,48 +113,150 @@ document.addEventListener("DOMContentLoaded", async () => {
       localStorage.getItem(WAR_KEY) === "true";
   }
 
+  // =====================================
+  // COMPROBAR SI UNA OBRA FUE DESCUBIERTA
+  // =====================================
+
+  function isWorkDiscovered(key) {
+
+    if (key === "wargiro") {
+      return isWarGiroFound();
+    }
+
+    const missionIndex = completedWorks[key];
+
+    if (missionIndex === undefined) {
+      return false;
+    }
+
+    return getProgress().includes(missionIndex);
+  }
+
   // Buscar obra por número de misión
   function getWorkByMission(index) {
-    return obras.find(obra => obra.missionIndex === index);
+    return obras.find(
+      obra => Number(obra.missionIndex) === index
+    );
   }
 
   // =====================================
-  // ACTUALIZAR APARIENCIA DE MARCADORES
+  // ACTUALIZAR MARCADORES DEL MAPA
   // =====================================
 
   function updatePins() {
-    const completed = getProgress();
 
     mapPins.forEach(pin => {
+
       const key = pin.dataset.work;
+      const discovered = isWorkDiscovered(key);
 
-      if (key === "wargiro") {
-        const found = isWarGiroFound();
+      pin.classList.toggle("is-complete", discovered);
+      pin.classList.toggle("is-locked", !discovered);
 
-        pin.classList.toggle("is-complete", found);
-        pin.classList.toggle("is-final-locked", !found);
+      pin.classList.toggle(
+        "is-final-locked",
+        key === "wargiro" && !discovered
+      );
 
-        return;
-      }
-
-      const missionIndex = completedWorks[key];
-      const done = completed.includes(missionIndex);
-
-      pin.classList.toggle("is-complete", done);
     });
   }
 
   // =====================================
-  // MOSTRAR INFORMACIÓN DE UNA OBRA
+  // ACTUALIZAR ESFERAS DEL MAPA AR
   // =====================================
 
-  function showWork(key) {
+  function updateArMarkers() {
 
-    // Mostrar la ficha al seleccionar cualquier marcador
-    infoCard.classList.add("is-open");
+    arMarkers.forEach(marker => {
 
-    infoImage.hidden = true;
-    infoDetails.hidden = true;
+      const key = marker.dataset.work;
+      const discovered = isWorkDiscovered(key);
+
+      const sphere = marker.querySelector(
+        ".ar-marker-sphere"
+      );
+
+      const label = marker.querySelector(
+        ".ar-marker-label"
+      );
+
+      if (!sphere || !label) return;
+
+      if (discovered) {
+
+        sphere.setAttribute(
+          "color",
+          marker.dataset.color
+        );
+
+        label.setAttribute(
+          "value",
+          workNames[key]
+        );
+
+      } else {
+
+        sphere.setAttribute("color", "#000000");
+
+        label.setAttribute("value", "?");
+
+      }
+
+    });
+  }
+
+  // =====================================
+  // ACTUALIZAR TODOS LOS MARCADORES
+  // =====================================
+
+  function updateAllMarkers() {
+    updatePins();
+    updateArMarkers();
+  }
+
+  // =====================================
+  // OCULTAR MENSAJES Y FICHAS AR
+  // =====================================
+
+  function hideArMessages() {
+
+    if (arMysteryMessage) {
+      arMysteryMessage.hidden = true;
+    }
+
+    if (arArtCard) {
+      arArtCard.hidden = true;
+    }
+  }
+
+  // =====================================
+  // MOSTRAR MENSAJE DE OBRA MISTERIOSA
+  // =====================================
+
+  function showArMystery() {
+
+    hideArMessages();
+
+    if (arMysteryMessage) {
+      arMysteryMessage.hidden = false;
+    }
+
+  }
+
+  // =====================================
+  // MOSTRAR INFORMACIÓN DE OBRA EN AR
+  // =====================================
+
+  function showArWork(key) {
+
+    hideArMessages();
+
+    if (!isWorkDiscovered(key)) {
+      showArMystery();
+      return;
+    }
+
+    if (!arArtCard) return;
 
     // =====================================
     // WAR GIRO
@@ -117,30 +264,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (key === "wargiro") {
 
-      if (!isWarGiroFound()) {
-        infoTitle.textContent = "Destino secreto";
+      arCardTitle.textContent = "War Giro";
 
-        infoDescription.textContent =
-          "War Giro es el descubrimiento final. " +
-          "Completa las cinco misiones y resuelve el último acertijo para encontrarlo.";
-
-        infoStatus.textContent =
-          `Progreso: ${getProgress().length}/5 misiones completadas`;
-
-        return;
-      }
-
-      infoTitle.textContent = "War Giro";
-
-      infoDescription.textContent =
+      arCardDescription.textContent =
         "¡Has encontrado el destino final de Los guardianes del arte! " +
         "Has reunido los cinco fragmentos de la Esencia Creativa.";
 
-      infoImage.src = "img/obras/war-gero.jpg";
-      infoImage.alt = "Escultura War Giro";
-      infoImage.hidden = false;
+      arCardImage.src = "img/obras/war-gero.jpg";
+      arCardImage.alt = "Escultura War Giro";
+      arCardImage.hidden = false;
 
-      infoStatus.textContent = "✧ ¡Destino final descubierto!";
+      arCardDetails.hidden = true;
+
+      arArtCard.hidden = false;
 
       return;
     }
@@ -153,6 +289,114 @@ document.addEventListener("DOMContentLoaded", async () => {
     const obra = getWorkByMission(missionIndex);
 
     if (!obra) {
+
+      arCardTitle.textContent = "Obra no disponible";
+
+      arCardDescription.textContent =
+        "No se encontró la información de esta obra.";
+
+      arCardImage.hidden = true;
+      arCardDetails.hidden = true;
+
+      arArtCard.hidden = false;
+
+      return;
+    }
+
+    arCardTitle.textContent = obra.titulo;
+
+    arCardDescription.textContent =
+      obra.descripcion || "";
+
+    arCardImage.src = obra.imagen;
+    arCardImage.alt = obra.titulo;
+    arCardImage.hidden = !obra.imagen;
+
+    arCardArtist.textContent =
+      obra.artista || "No disponible";
+
+    arCardYear.textContent =
+      obra.anio || "No disponible";
+
+    arCardDetails.hidden = false;
+
+    arArtCard.hidden = false;
+  }
+
+  // =====================================
+  // MOSTRAR INFORMACIÓN EN EL MAPA
+  // =====================================
+
+  function showWork(key) {
+
+    infoCard.classList.add("is-open");
+
+    infoImage.hidden = true;
+    infoDetails.hidden = true;
+
+    // =====================================
+    // OBRAS BLOQUEADAS
+    // =====================================
+
+    if (!isWorkDiscovered(key)) {
+
+      infoTitle.textContent = "Obra misteriosa";
+
+      infoDescription.textContent =
+        "Esta obra aún es un misterio. " +
+        "¡Continúa tu aventura para descubrirla!";
+
+      infoStatus.textContent =
+        key === "wargiro"
+          ? `Destino final bloqueado · ${getProgress().length}/5 misiones completadas`
+          : "Completa la misión correspondiente para descubrir esta obra.";
+
+      if (infoLink) {
+        infoLink.hidden = false;
+        infoLink.href = "aventura.html";
+        infoLink.textContent = "Continuar la aventura →";
+      }
+
+      return;
+    }
+
+    // =====================================
+    // WAR GIRO DESCUBIERTO
+    // =====================================
+
+    if (key === "wargiro") {
+
+      infoTitle.textContent = "War Giro";
+
+      infoDescription.textContent =
+        "¡Has encontrado el destino final de Los guardianes del arte! " +
+        "Has reunido los cinco fragmentos de la Esencia Creativa.";
+
+      infoImage.src = "img/obras/war-gero.jpg";
+      infoImage.alt = "Escultura War Giro";
+      infoImage.hidden = false;
+
+      infoStatus.textContent =
+        "✧ ¡Destino final descubierto!";
+
+      if (infoLink) {
+        infoLink.hidden = false;
+        infoLink.href = "aventura.html";
+        infoLink.textContent = "Volver a la aventura →";
+      }
+
+      return;
+    }
+
+    // =====================================
+    // OBRAS DESCUBIERTAS
+    // =====================================
+
+    const missionIndex = completedWorks[key];
+    const obra = getWorkByMission(missionIndex);
+
+    if (!obra) {
+
       infoTitle.textContent = "Obra no disponible";
 
       infoDescription.textContent =
@@ -164,32 +408,42 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     infoTitle.textContent = obra.titulo;
-    infoDescription.textContent = obra.descripcion || "";
+
+    infoDescription.textContent =
+      obra.descripcion || "";
 
     infoImage.src = obra.imagen;
     infoImage.alt = obra.titulo;
     infoImage.hidden = false;
 
-    infoArtist.textContent = obra.artista || "No disponible";
-    infoYear.textContent = obra.anio || "No disponible";
+    infoArtist.textContent =
+      obra.artista || "No disponible";
+
+    infoYear.textContent =
+      obra.anio || "No disponible";
 
     infoDetails.hidden = false;
 
-    const done = getProgress().includes(missionIndex);
+    infoStatus.textContent =
+      "✓ Misión completada · Fragmento conseguido";
 
-    infoStatus.textContent = done
-      ? "✓ Misión completada · Fragmento conseguido"
-      : `Misión ${missionIndex + 1} · ${getProgress().length}/5 fragmentos reunidos`;
+    if (infoLink) {
+      infoLink.hidden = false;
+      infoLink.href = "aventura.html";
+      infoLink.textContent = "Consultar la aventura →";
+    }
   }
 
   // =====================================
-  // EVENTOS DE LOS MARCADORES
+  // EVENTOS DE LOS MARCADORES DEL MAPA
   // =====================================
 
   mapPins.forEach(pin => {
+
     pin.addEventListener("click", () => {
       showWork(pin.dataset.work);
     });
+
   });
 
   // =====================================
@@ -197,6 +451,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // =====================================
 
   try {
+
     const response = await fetch("data/obras.json");
 
     if (!response.ok) {
@@ -205,23 +460,38 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     obras = await response.json();
 
-    updatePins();
+    updateAllMarkers();
 
   } catch (error) {
+
     console.error(error);
 
     infoTitle.textContent = "Error al cargar el mapa";
 
     infoDescription.textContent =
       "No fue posible cargar la información de las obras.";
+
   }
 
-  // Actualizar marcadores si cambia el progreso
-  window.addEventListener("storage", updatePins);
-  window.addEventListener("pageshow", updatePins);
+  // =====================================
+  // ACTUALIZAR SI CAMBIA EL PROGRESO
+  // =====================================
+
+  window.addEventListener("storage", updateAllMarkers);
+
+  window.addEventListener("pageshow", updateAllMarkers);
+
+  // También revisar el progreso al volver a la pestaña
+  document.addEventListener("visibilitychange", () => {
+
+    if (!document.hidden) {
+      updateAllMarkers();
+    }
+
+  });
 
   // =====================================
-  // REALIDAD AUMENTADA
+  // ELEMENTOS DE REALIDAD AUMENTADA
   // =====================================
 
   const scene = document.getElementById("ar-scene");
@@ -235,15 +505,47 @@ document.addEventListener("DOMContentLoaded", async () => {
   let arStarted = false;
 
   // =====================================
+  // EVENTOS DE LAS ESFERAS AR
+  // =====================================
+
+  arMarkers.forEach(marker => {
+
+    marker.addEventListener("click", () => {
+
+      const key = marker.dataset.work;
+
+      showArWork(key);
+
+    });
+
+  });
+
+  // =====================================
+  // CERRAR FICHA AR
+  // =====================================
+
+  if (closeArCard) {
+
+    closeArCard.addEventListener("click", () => {
+      hideArMessages();
+    });
+
+  }
+
+  // =====================================
   // INICIAR AR
   // =====================================
 
   async function startAR() {
 
     document.body.classList.add("ar-active");
+
     arInterface.setAttribute("aria-hidden", "false");
 
-    // Restablecer las instrucciones al abrir la cámara
+    hideArMessages();
+
+    updateAllMarkers();
+
     arGuide.classList.remove("is-hidden");
 
     arStatus.textContent =
@@ -251,13 +553,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
 
-      // Esperar a que A-Frame termine de cargar la escena
+      // Esperar a que A-Frame termine de cargar
       if (!scene.hasLoaded) {
+
         await new Promise(resolve => {
+
           scene.addEventListener("loaded", resolve, {
             once: true
           });
+
         });
+
       }
 
       const mindarSystem =
@@ -277,7 +583,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       arStatus.textContent =
         "No se pudo abrir la cámara. Revisa los permisos del navegador.";
+
     }
+
   }
 
   // =====================================
@@ -298,20 +606,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
 
       console.warn("No se pudo detener la cámara:", error);
+
     }
 
     arStarted = false;
+
+    hideArMessages();
 
     document.body.classList.remove("ar-active");
 
     arInterface.setAttribute("aria-hidden", "true");
 
-    // Preparar las instrucciones para la próxima apertura
     arGuide.classList.remove("is-hidden");
+
   }
 
   // Botones de realidad aumentada
   startButton.addEventListener("click", startAR);
+
   closeButton.addEventListener("click", stopAR);
 
   // =====================================
@@ -323,8 +635,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     arStatus.textContent =
       "✧ ¡Mapa reconocido! Explora los puntos de interés.";
 
-    // Ocultar las instrucciones de encuadre
     arGuide.classList.add("is-hidden");
+
+    updateAllMarkers();
 
   });
 
@@ -337,8 +650,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     arStatus.textContent =
       "Busca nuevamente el mapa impreso con la cámara.";
 
-    // Volver a mostrar las instrucciones
     arGuide.classList.remove("is-hidden");
+
+    hideArMessages();
 
   });
 
