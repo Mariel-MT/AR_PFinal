@@ -1,10 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-  // =====================================
-  // CONFIGURACIÓN Y ELEMENTOS
-  // =====================================
-
   const STORAGE_KEY = "ccu-guardianes-progreso-v1";
   const WAR_KEY = "ccu-guardianes-war-giro-descubierto";
 
@@ -20,10 +16,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   let obras = [];
 
-  const infoCard = document.getElementById("map-info");
-  const closeInfoButton = document.getElementById("close-info");
-
+  // Elementos de la ficha
   const infoTitle = document.getElementById("info-title");
+  const infoCard = document.querySelector(".map-info");
   const infoImage = document.getElementById("info-image");
   const infoDescription = document.getElementById("info-description");
   const infoArtist = document.getElementById("info-artist");
@@ -31,26 +26,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   const infoDetails = document.getElementById("info-details");
   const infoStatus = document.getElementById("info-status");
 
-  // =====================================
-  // CERRAR FICHA DE INFORMACIÓN
-  // =====================================
+  // Botón para cerrar la ficha
+  const closeInfo = document.createElement("button");
+  closeInfo.type = "button";
+  closeInfo.className = "map-info-close";
+  closeInfo.textContent = "Cerrar ✕";
+  closeInfo.setAttribute("aria-label", "Cerrar información de la obra");
 
-  function closeInfo() {
+  infoCard.prepend(closeInfo);
+
+  closeInfo.addEventListener("click", () => {
     infoCard.classList.remove("is-open");
-  }
-
-  closeInfoButton.addEventListener("click", closeInfo);
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closeInfo();
-    }
   });
 
-  // =====================================
-  // PROGRESO DE LA AVENTURA
-  // =====================================
-
+  // Leer progreso guardado
   function getProgress() {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
@@ -60,7 +49,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           n => Number.isInteger(n) && n >= 0 && n < 5
         );
       }
-
     } catch (error) {
       console.error("No se pudo leer el progreso:", error);
     }
@@ -68,19 +56,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     return [];
   }
 
+  // Comprobar si se descubrió War Giro
   function isWarGiroFound() {
     return getProgress().length === 5 &&
       localStorage.getItem(WAR_KEY) === "true";
   }
 
+  // Buscar obra por número de misión
   function getWorkByMission(index) {
     return obras.find(obra => obra.missionIndex === index);
   }
 
-  // =====================================
-  // ACTUALIZAR MARCADORES
-  // =====================================
-
+  // Actualizar apariencia de los marcadores
   function updatePins() {
     const completed = getProgress();
 
@@ -92,7 +79,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         pin.classList.toggle("is-complete", found);
         pin.classList.toggle("is-final-locked", !found);
-
         return;
       }
 
@@ -103,25 +89,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // =====================================
-  // MOSTRAR INFORMACIÓN DE LAS OBRAS
-  // =====================================
-
+  // Mostrar información de una obra
   function showWork(key) {
 
-    // En celular abre la ficha como ventana emergente
+    // En celular, abrir la ficha emergente
     if (window.matchMedia("(max-width: 760px)").matches) {
       infoCard.classList.add("is-open");
     }
 
     infoImage.hidden = true;
     infoDetails.hidden = true;
-
-    infoImage.removeAttribute("src");
-
-    // -------------------------------------
-    // WAR GIRO
-    // -------------------------------------
 
     if (key === "wargiro") {
 
@@ -153,21 +130,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    // -------------------------------------
-    // OBRAS DE LAS CINCO MISIONES
-    // -------------------------------------
-
     const missionIndex = completedWorks[key];
     const obra = getWorkByMission(missionIndex);
 
     if (!obra) {
       infoTitle.textContent = "Obra no disponible";
-
       infoDescription.textContent =
         "No se encontró la información de esta obra.";
-
       infoStatus.textContent = "";
-
       return;
     }
 
@@ -180,7 +150,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     infoArtist.textContent = obra.artista || "No disponible";
     infoYear.textContent = obra.anio || "No disponible";
-
     infoDetails.hidden = false;
 
     const done = getProgress().includes(missionIndex);
@@ -190,20 +159,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       : `Misión ${missionIndex + 1} · ${getProgress().length}/5 fragmentos reunidos`;
   }
 
-  // =====================================
-  // EVENTOS DE LOS MARCADORES
-  // =====================================
-
+  // Eventos de los marcadores
   mapPins.forEach(pin => {
     pin.addEventListener("click", () => {
       showWork(pin.dataset.work);
     });
   });
 
-  // =====================================
-  // CARGAR INFORMACIÓN DESDE JSON
-  // =====================================
-
+  // Cargar información de las obras
   try {
     const response = await fetch("data/obras.json");
 
@@ -219,14 +182,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error(error);
 
     infoTitle.textContent = "Error al cargar el mapa";
-
     infoDescription.textContent =
       "No fue posible cargar la información de las obras.";
-
-    infoStatus.textContent = "";
   }
 
-  // Actualizar progreso si cambia en otra página
+  // Actualizar marcadores si cambia el progreso
   window.addEventListener("storage", updatePins);
   window.addEventListener("pageshow", updatePins);
 
@@ -243,10 +203,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   let arStarted = false;
 
-  // -------------------------------------
-  // INICIAR AR
-  // -------------------------------------
-
   async function startAR() {
 
     document.body.classList.add("ar-active");
@@ -256,14 +212,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       "Apunta la cámara hacia el mapa impreso...";
 
     try {
-
-      // Esperar a que A-Frame termine de cargar
-      if (!scene.hasLoaded) {
-        await new Promise(resolve => {
-          scene.addEventListener("loaded", resolve, { once: true });
-        });
-      }
-
       const mindarSystem =
         scene.systems["mindar-image-system"];
 
@@ -276,25 +224,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       arStarted = true;
 
     } catch (error) {
-
       console.error("Error al iniciar la cámara:", error);
 
       arStatus.textContent =
         "No se pudo abrir la cámara. Revisa los permisos del navegador.";
-
-      document.body.classList.remove("ar-active");
-      arInterface.setAttribute("aria-hidden", "true");
     }
   }
-
-  // -------------------------------------
-  // DETENER AR
-  // -------------------------------------
 
   async function stopAR() {
 
     try {
-
       const mindarSystem =
         scene.systems["mindar-image-system"];
 
@@ -315,33 +254,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   startButton.addEventListener("click", startAR);
   closeButton.addEventListener("click", stopAR);
 
-  // -------------------------------------
-  // DETECCIÓN DEL MAPA IMPRESO
-  // -------------------------------------
-
+  // Cuando MindAR reconoce el mapa
   mapTarget.addEventListener("targetFound", () => {
     arStatus.textContent =
       "✧ ¡Mapa reconocido! Explora los puntos de interés.";
   });
 
+  // Cuando deja de reconocerlo
   mapTarget.addEventListener("targetLost", () => {
     arStatus.textContent =
       "Busca nuevamente el mapa impreso con la cámara.";
   });
 
-  // -------------------------------------
-  // CERRAR CÁMARA AL ABANDONAR LA PÁGINA
-  // -------------------------------------
-
+  // Detener cámara al abandonar la página
   document.addEventListener("visibilitychange", () => {
-
     if (
       document.hidden &&
       document.body.classList.contains("ar-active")
     ) {
       stopAR();
     }
-
   });
 
 });
