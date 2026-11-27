@@ -153,13 +153,6 @@ body.map-page {
   box-shadow: 0 0 0 5px #b8e5c5, 0 2px 9px #24113d55;
 }
 
-/* Obras cuyas misiones todavía no se completan */
-.map-pin.is-locked {
-  background: #000000 !important;
-  opacity: 1;
-  filter: none;
-}
-
 .map-pin.is-final-locked {
   filter: grayscale(1);
   opacity: .65;
