@@ -94,6 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       return `
         <article class="work-card">
+
           <div class="work-image-container">
             ${imageHTML}
           </div>
@@ -113,6 +114,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           </p>
 
           <p>${escapeHTML(obra.descripcion || "")}</p>
+
         </article>
       `;
     }).join("");
