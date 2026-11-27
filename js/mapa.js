@@ -27,12 +27,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   const infoStatus = document.getElementById("info-status");
 
   // Botón de cierre que ya existe en mapa.html
+const infoCard = document.querySelector(".map-info");
 const closeInfo = document.getElementById("close-info");
 
-closeInfo.addEventListener("click", () => {
-  infoCard.classList.remove("is-open");
-});
-
+if (closeInfo && infoCard) {
+  closeInfo.addEventListener("click", () => {
+    infoCard.classList.remove("is-open");
+  });
+}
 
   
   // Leer progreso guardado
