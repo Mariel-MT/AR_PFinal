@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", async () => {
 
   const grid = document.getElementById("works-grid");
@@ -63,6 +64,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       .filter(obra => isUnlocked(obra.missionIndex, completed))
       .sort((a, b) => a.missionIndex - b.missionIndex);
 
+    // War Giro aparece únicamente después de completar
+    // las cinco misiones y descubrirlo.
+    const warGiroFound =
+      completed.length === 5 &&
+      localStorage.getItem("ccu-guardianes-war-giro-descubierto") === "true";
+
+    if (warGiroFound) {
+      unlockedWorks.push({
+        titulo: "War Giro",
+        artista: "Rodrigo de la Sierra",
+        tipo: "Escultura",
+        anio: 2010,
+        tecnica: "Escultura metálica",
+        descripcion: "El guardián final descubierto al completar las cinco misiones.",
+        imagen: "img/obras/war-gero.jpg"
+      });
+    }
+
     if (unlockedWorks.length === 0) {
       grid.textContent = "Todavía no hay obras descubiertas.";
       return;
@@ -70,7 +89,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     grid.innerHTML = unlockedWorks.map(obra => `
       <article class="work-card">
-        <div class="work-placeholder" aria-hidden="true">✳</div>
+
+        <div class="work-image-container">
+          <img
+            class="work-image"
+            src="${escapeHTML(obra.imagen || "")}"
+            alt="${escapeHTML(obra.titulo || "Imagen de la obra")}"
+            loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+          >
+
+          <div class="work-placeholder" aria-hidden="true" style="display:none;">
+            ✳
+          </div>
+        </div>
 
         <span class="work-tag">
           ${escapeHTML(obra.tipo || "Obra")}
@@ -87,6 +119,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         </p>
 
         <p>${escapeHTML(obra.descripcion || "")}</p>
+
       </article>
     `).join("");
 
