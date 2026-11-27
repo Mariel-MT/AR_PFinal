@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", async () => {
 
   const STORAGE_KEY = "ccu-guardianes-progreso-v1";
@@ -16,9 +15,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   let obras = [];
 
-  // Elementos de la ficha
+  // =====================================
+  // ELEMENTOS DE LA FICHA
+  // =====================================
+
   const infoTitle = document.getElementById("info-title");
-  const infoCard = document.querySelector(".map-info");
+  const infoCard = document.getElementById("map-info");
   const infoImage = document.getElementById("info-image");
   const infoDescription = document.getElementById("info-description");
   const infoArtist = document.getElementById("info-artist");
@@ -26,18 +28,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   const infoDetails = document.getElementById("info-details");
   const infoStatus = document.getElementById("info-status");
 
-  // Botón de cierre que ya existe en mapa.html
-const infoCard = document.querySelector(".map-info");
-const closeInfo = document.getElementById("close-info");
+  const closeInfo = document.getElementById("close-info");
 
-if (closeInfo && infoCard) {
-  closeInfo.addEventListener("click", () => {
-    infoCard.classList.remove("is-open");
-  });
-}
+  // Cerrar la ficha de información
+  if (closeInfo && infoCard) {
+    closeInfo.addEventListener("click", () => {
+      infoCard.classList.remove("is-open");
+    });
+  }
 
-  
-  // Leer progreso guardado
+  // =====================================
+  // LEER PROGRESO GUARDADO
+  // =====================================
+
   function getProgress() {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
@@ -47,6 +50,7 @@ if (closeInfo && infoCard) {
           n => Number.isInteger(n) && n >= 0 && n < 5
         );
       }
+
     } catch (error) {
       console.error("No se pudo leer el progreso:", error);
     }
@@ -54,7 +58,10 @@ if (closeInfo && infoCard) {
     return [];
   }
 
-  // Comprobar si se descubrió War Giro
+  // =====================================
+  // COMPROBAR SI SE DESCUBRIÓ WAR GIRO
+  // =====================================
+
   function isWarGiroFound() {
     return getProgress().length === 5 &&
       localStorage.getItem(WAR_KEY) === "true";
@@ -65,7 +72,10 @@ if (closeInfo && infoCard) {
     return obras.find(obra => obra.missionIndex === index);
   }
 
-  // Actualizar apariencia de los marcadores
+  // =====================================
+  // ACTUALIZAR APARIENCIA DE MARCADORES
+  // =====================================
+
   function updatePins() {
     const completed = getProgress();
 
@@ -77,6 +87,7 @@ if (closeInfo && infoCard) {
 
         pin.classList.toggle("is-complete", found);
         pin.classList.toggle("is-final-locked", !found);
+
         return;
       }
 
@@ -87,7 +98,10 @@ if (closeInfo && infoCard) {
     });
   }
 
-  // Mostrar información de una obra
+  // =====================================
+  // MOSTRAR INFORMACIÓN DE UNA OBRA
+  // =====================================
+
   function showWork(key) {
 
     // En celular, abrir la ficha emergente
@@ -97,6 +111,10 @@ if (closeInfo && infoCard) {
 
     infoImage.hidden = true;
     infoDetails.hidden = true;
+
+    // =====================================
+    // WAR GIRO
+    // =====================================
 
     if (key === "wargiro") {
 
@@ -128,14 +146,21 @@ if (closeInfo && infoCard) {
       return;
     }
 
+    // =====================================
+    // OBRAS DE LAS CINCO MISIONES
+    // =====================================
+
     const missionIndex = completedWorks[key];
     const obra = getWorkByMission(missionIndex);
 
     if (!obra) {
       infoTitle.textContent = "Obra no disponible";
+
       infoDescription.textContent =
         "No se encontró la información de esta obra.";
+
       infoStatus.textContent = "";
+
       return;
     }
 
@@ -148,6 +173,7 @@ if (closeInfo && infoCard) {
 
     infoArtist.textContent = obra.artista || "No disponible";
     infoYear.textContent = obra.anio || "No disponible";
+
     infoDetails.hidden = false;
 
     const done = getProgress().includes(missionIndex);
@@ -157,14 +183,20 @@ if (closeInfo && infoCard) {
       : `Misión ${missionIndex + 1} · ${getProgress().length}/5 fragmentos reunidos`;
   }
 
-  // Eventos de los marcadores
+  // =====================================
+  // EVENTOS DE LOS MARCADORES
+  // =====================================
+
   mapPins.forEach(pin => {
     pin.addEventListener("click", () => {
       showWork(pin.dataset.work);
     });
   });
 
-  // Cargar información de las obras
+  // =====================================
+  // CARGAR INFORMACIÓN DE LAS OBRAS
+  // =====================================
+
   try {
     const response = await fetch("data/obras.json");
 
@@ -180,6 +212,7 @@ if (closeInfo && infoCard) {
     console.error(error);
 
     infoTitle.textContent = "Error al cargar el mapa";
+
     infoDescription.textContent =
       "No fue posible cargar la información de las obras.";
   }
@@ -201,6 +234,10 @@ if (closeInfo && infoCard) {
 
   let arStarted = false;
 
+  // =====================================
+  // INICIAR AR
+  // =====================================
+
   async function startAR() {
 
     document.body.classList.add("ar-active");
@@ -210,6 +247,16 @@ if (closeInfo && infoCard) {
       "Apunta la cámara hacia el mapa impreso...";
 
     try {
+
+      // Esperar a que A-Frame termine de cargar la escena
+      if (!scene.hasLoaded) {
+        await new Promise(resolve => {
+          scene.addEventListener("loaded", resolve, {
+            once: true
+          });
+        });
+      }
+
       const mindarSystem =
         scene.systems["mindar-image-system"];
 
@@ -222,6 +269,7 @@ if (closeInfo && infoCard) {
       arStarted = true;
 
     } catch (error) {
+
       console.error("Error al iniciar la cámara:", error);
 
       arStatus.textContent =
@@ -229,9 +277,14 @@ if (closeInfo && infoCard) {
     }
   }
 
+  // =====================================
+  // DETENER AR
+  // =====================================
+
   async function stopAR() {
 
     try {
+
       const mindarSystem =
         scene.systems["mindar-image-system"];
 
@@ -240,38 +293,53 @@ if (closeInfo && infoCard) {
       }
 
     } catch (error) {
+
       console.warn("No se pudo detener la cámara:", error);
     }
 
     arStarted = false;
 
     document.body.classList.remove("ar-active");
+
     arInterface.setAttribute("aria-hidden", "true");
   }
 
+  // Botones de realidad aumentada
   startButton.addEventListener("click", startAR);
   closeButton.addEventListener("click", stopAR);
 
-  // Cuando MindAR reconoce el mapa
+  // =====================================
+  // CUANDO MINDAR RECONOCE EL MAPA
+  // =====================================
+
   mapTarget.addEventListener("targetFound", () => {
+
     arStatus.textContent =
       "✧ ¡Mapa reconocido! Explora los puntos de interés.";
+
   });
 
   // Cuando deja de reconocerlo
   mapTarget.addEventListener("targetLost", () => {
+
     arStatus.textContent =
       "Busca nuevamente el mapa impreso con la cámara.";
+
   });
 
-  // Detener cámara al abandonar la página
+  // =====================================
+  // DETENER CÁMARA AL ABANDONAR LA PÁGINA
+  // =====================================
+
   document.addEventListener("visibilitychange", () => {
+
     if (
       document.hidden &&
       document.body.classList.contains("ar-active")
     ) {
       stopAR();
     }
+
   });
 
 });
