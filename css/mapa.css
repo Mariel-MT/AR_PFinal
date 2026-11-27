@@ -442,3 +442,49 @@ body.ar-active .ar-scene {
     margin-bottom: 30px;
   }
 }
+
+/* =====================================
+   MODO CÁMARA AR: OCULTAR PÁGINA
+===================================== */
+
+body.map-page.ar-active {
+  overflow: hidden !important;
+  background: #000 !important;
+}
+
+/* Ocultar todo el contenido normal de la página */
+
+body.map-page.ar-active > .site-header,
+body.map-page.ar-active > .map-main,
+body.map-page.ar-active > footer {
+  display: none !important;
+}
+
+/* Mantener la cámara por encima del contenido */
+
+body.map-page.ar-active #ar-scene {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  z-index: 9998 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Mantener los controles de cámara visibles */
+
+body.map-page.ar-active .ar-interface {
+  display: block !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+}
+
+/* Ocultar las instrucciones de encuadre al reconocer el mapa */
+
+.ar-guide.is-hidden {
+  display: none !important;
+}
