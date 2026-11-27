@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="es">
 <head>
@@ -35,6 +34,7 @@
   <main class="map-main">
 
     <p class="eyebrow">RECORRE EL ANDADOR ESCULTÓRICO</p>
+
     <h1>Mapa de <em>los guardianes</em></h1>
 
     <p class="lead">
@@ -46,41 +46,55 @@
     <section class="map-layout">
 
       <div class="map-frame">
+
         <img
           src="img/mapa.png"
           alt="Mapa del Andador Escultórico del CCU BUAP"
           class="map-image"
         >
 
-        <button class="map-pin pin-bailarina"
+        <button
+          class="map-pin pin-bailarina"
           type="button"
           data-work="bailarina"
-          aria-label="La Bailarina"></button>
+          aria-label="La Bailarina">
+        </button>
 
-        <button class="map-pin pin-mariposa"
+        <button
+          class="map-pin pin-mariposa"
           type="button"
           data-work="mariposa"
-          aria-label="La Mariposa"></button>
+          aria-label="La Mariposa">
+        </button>
 
-        <button class="map-pin pin-libelula"
+        <button
+          class="map-pin pin-libelula"
           type="button"
           data-work="libelula"
-          aria-label="La Libélula"></button>
+          aria-label="La Libélula">
+        </button>
 
-        <button class="map-pin pin-vigilante"
+        <button
+          class="map-pin pin-vigilante"
           type="button"
           data-work="vigilante"
-          aria-label="El Vigilante"></button>
+          aria-label="El Vigilante">
+        </button>
 
-        <button class="map-pin pin-tiempo"
+        <button
+          class="map-pin pin-tiempo"
           type="button"
           data-work="tiempo"
-          aria-label="El Tiempo"></button>
+          aria-label="El Tiempo">
+        </button>
 
-        <button class="map-pin pin-wargiro"
+        <button
+          class="map-pin pin-wargiro"
           type="button"
           data-work="wargiro"
-          aria-label="War Giro"></button>
+          aria-label="War Giro">
+        </button>
+
       </div>
 
       <aside class="map-info" id="map-info" aria-live="polite">
@@ -97,7 +111,12 @@
 
         <h2 id="info-title">Explora el mapa</h2>
 
-        <img id="info-image" class="info-image" alt="" hidden>
+        <img
+          id="info-image"
+          class="info-image"
+          alt=""
+          hidden
+        >
 
         <p id="info-description">
           Selecciona uno de los puntos del mapa
@@ -105,8 +124,15 @@
         </p>
 
         <div id="info-details" hidden>
-          <p><strong>Artista:</strong> <span id="info-artist"></span></p>
-          <p><strong>Año:</strong> <span id="info-year"></span></p>
+          <p>
+            <strong>Artista:</strong>
+            <span id="info-artist"></span>
+          </p>
+
+          <p>
+            <strong>Año:</strong>
+            <span id="info-year"></span>
+          </p>
         </div>
 
         <p id="info-status" class="work-status">
@@ -122,9 +148,12 @@
     </section>
 
     <section class="map-actions">
+
       <div>
         <p class="eyebrow">EXPERIENCIA AUMENTADA</p>
+
         <h2>Explora el mapa en AR</h2>
+
         <p>
           Imprime este mismo mapa, abre la cámara
           y apunta hacia la hoja para descubrir
@@ -135,6 +164,7 @@
       <button class="button primary" id="start-ar" type="button">
         ✧ Ver mapa en AR
       </button>
+
     </section>
 
     <p class="map-note">
@@ -149,7 +179,10 @@
 
     <div class="ar-topbar">
       <span id="ar-status">Preparando cámara...</span>
-      <button id="close-ar" type="button">Cerrar ×</button>
+
+      <button id="close-ar" type="button">
+        Cerrar ×
+      </button>
     </div>
 
     <div class="ar-guide">
@@ -160,6 +193,7 @@
 
   <!-- Escena de realidad aumentada -->
   <a-scene
+    embedded
     id="ar-scene"
     class="ar-scene"
     mindar-image="
@@ -187,6 +221,7 @@
       <!-- La Bailarina: azul -->
       <a-entity position="-0.109 0.842 0.04">
         <a-sphere radius="0.035" color="#1689e8"></a-sphere>
+
         <a-text
           value="La Bailarina"
           position="0 -0.09 0"
@@ -200,6 +235,7 @@
       <!-- La Mariposa: verde -->
       <a-entity position="-0.170 0.785 0.04">
         <a-sphere radius="0.035" color="#21a65b"></a-sphere>
+
         <a-text
           value="La Mariposa"
           position="0 -0.09 0"
@@ -213,6 +249,7 @@
       <!-- La Libélula: naranja -->
       <a-entity position="-0.033 0 0.04">
         <a-sphere radius="0.035" color="#f28b25"></a-sphere>
+
         <a-text
           value="La Libélula"
           position="0 -0.09 0"
@@ -226,6 +263,7 @@
       <!-- El Vigilante: morado -->
       <a-entity position="-0.050 -0.764 0.04">
         <a-sphere radius="0.035" color="#8c45bd"></a-sphere>
+
         <a-text
           value="El Vigilante"
           position="0 -0.09 0"
@@ -239,6 +277,7 @@
       <!-- El Tiempo: rojo -->
       <a-entity position="-0.218 0.563 0.04">
         <a-sphere radius="0.035" color="#e33e48"></a-sphere>
+
         <a-text
           value="El Tiempo"
           position="0 -0.09 0"
@@ -252,6 +291,7 @@
       <!-- War Giro: amarillo -->
       <a-entity position="-0.209 0.849 0.04">
         <a-sphere radius="0.035" color="#f3cb25"></a-sphere>
+
         <a-text
           value="War Giro"
           position="0 -0.09 0"
