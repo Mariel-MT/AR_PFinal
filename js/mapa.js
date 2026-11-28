@@ -93,6 +93,57 @@ function isMissionUnlocked(index, completed = getProgress()) {
   return true;
 }
 
+  
+// =====================================
+// ACTUALIZAR COLORES DE LAS ESFERAS AR
+// =====================================
+
+function updateARSpheres(completed = getProgress()) {
+
+  const arMarkers = document.querySelectorAll("[data-ar-work]");
+
+  const arColors = {
+    bailarina: "#1689e8",
+    mariposa: "#21a65b",
+    libelula: "#f28b25",
+    vigilante: "#8c45bd",
+    tiempo: "#e33e48",
+    wargiro: "#f3cb25"
+  };
+
+  arMarkers.forEach(marker => {
+
+    const key = marker.dataset.arWork;
+    const sphere = marker.querySelector("a-sphere");
+
+    if (!sphere || !arColors[key]) return;
+
+    let unlocked = false;
+
+    // War Giro solo aparece en color al descubrirlo
+    if (key === "wargiro") {
+
+      unlocked = isWarGiroFound();
+
+    } else {
+
+      const missionIndex = completedWorks[key];
+
+      unlocked = isMissionUnlocked(missionIndex, completed);
+
+    }
+
+    // Las esferas bloqueadas serán negras
+    sphere.setAttribute(
+      "color",
+      unlocked ? arColors[key] : "#17131d"
+    );
+
+  });
+
+}
+
+
  // =====================================
 // ACTUALIZAR APARIENCIA DE MARCADORES
 // =====================================
@@ -116,6 +167,9 @@ function updatePins() {
       pin.setAttribute("aria-disabled", String(!found));
 
       return;
+
+      // Actualizar también las esferas de realidad aumentada
+updateARSpheres(completed);
     }
 
     // CINCO MISIONES
@@ -369,6 +423,9 @@ const obra = getWorkByMission(missionIndex);
   // =====================================
 
   mapTarget.addEventListener("targetFound", () => {
+
+     // Sincronizar los desbloqueos antes de mostrar el mapa AR
+  updatePins();
 
     arStatus.textContent =
       "✧ ¡Mapa reconocido! Explora los puntos de interés.";
