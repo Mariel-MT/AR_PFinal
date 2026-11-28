@@ -148,6 +148,11 @@ function updateARSpheres(completed = getProgress()) {
 // ACTUALIZAR APARIENCIA DE MARCADORES
 // =====================================
 
+
+ // =====================================
+ // ACTUALIZAR APARIENCIA DE MARCADORES
+ // =====================================
+
 function updatePins() {
 
   const completed = getProgress();
@@ -167,9 +172,6 @@ function updatePins() {
       pin.setAttribute("aria-disabled", String(!found));
 
       return;
-
-      // Actualizar también las esferas de realidad aumentada
-updateARSpheres(completed);
     }
 
     // CINCO MISIONES
@@ -184,7 +186,12 @@ updateARSpheres(completed);
     pin.setAttribute("aria-disabled", String(!unlocked));
 
   });
+
+  // Actualizar también las esferas de realidad aumentada
+  updateARSpheres(completed);
+
 }
+
 
   // =====================================
   // MOSTRAR INFORMACIÓN DE UNA OBRA
