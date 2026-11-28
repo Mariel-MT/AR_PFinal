@@ -77,6 +77,23 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // =====================================
+// COMPROBAR SI UNA MISIÓN ESTÁ DESBLOQUEADA
+// =====================================
+
+function isMissionUnlocked(index, completed = getProgress()) {
+
+  if (index === 0) return true;
+
+  for (let previous = 0; previous < index; previous++) {
+    if (!completed.includes(previous)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+  // =====================================
   // ACTUALIZAR APARIENCIA DE MARCADORES
   // =====================================
 
