@@ -93,31 +93,44 @@ function isMissionUnlocked(index, completed = getProgress()) {
   return true;
 }
 
-  // =====================================
-  // ACTUALIZAR APARIENCIA DE MARCADORES
-  // =====================================
+ // =====================================
+// ACTUALIZAR APARIENCIA DE MARCADORES
+// =====================================
 
-  function updatePins() {
-    const completed = getProgress();
+function updatePins() {
 
-    mapPins.forEach(pin => {
-      const key = pin.dataset.work;
+  const completed = getProgress();
 
-      if (key === "wargiro") {
-        const found = isWarGiroFound();
+  mapPins.forEach(pin => {
 
-        pin.classList.toggle("is-complete", found);
-        pin.classList.toggle("is-final-locked", !found);
+    const key = pin.dataset.work;
 
-        return;
-      }
+    // WAR GIRO: DESTINO FINAL
+    if (key === "wargiro") {
 
-      const missionIndex = completedWorks[key];
-      const done = completed.includes(missionIndex);
+      const found = isWarGiroFound();
 
-      pin.classList.toggle("is-complete", done);
-    });
-  }
+      pin.classList.toggle("is-complete", found);
+      pin.classList.toggle("is-final-locked", !found);
+
+      pin.setAttribute("aria-disabled", String(!found));
+
+      return;
+    }
+
+    // CINCO MISIONES
+    const missionIndex = completedWorks[key];
+
+    const unlocked = isMissionUnlocked(missionIndex, completed);
+    const done = completed.includes(missionIndex);
+
+    pin.classList.toggle("is-locked", !unlocked);
+    pin.classList.toggle("is-complete", done);
+
+    pin.setAttribute("aria-disabled", String(!unlocked));
+
+  });
+}
 
   // =====================================
   // MOSTRAR INFORMACIÓN DE UNA OBRA
@@ -169,8 +182,24 @@ function isMissionUnlocked(index, completed = getProgress()) {
     // OBRAS DE LAS CINCO MISIONES
     // =====================================
 
-    const missionIndex = completedWorks[key];
-    const obra = getWorkByMission(missionIndex);
+   const missionIndex = completedWorks[key];
+const progress = getProgress();
+
+// Comprobar si esta misión ya está disponible
+if (!isMissionUnlocked(missionIndex, progress)) {
+
+  infoTitle.textContent = "Punto bloqueado";
+
+  infoDescription.textContent =
+    "Completa la misión anterior para desbloquear esta obra y revelar su información.";
+
+  infoStatus.textContent =
+    `Progreso: ${progress.length}/5 misiones completadas`;
+
+  return;
+}
+
+const obra = getWorkByMission(missionIndex);
 
     if (!obra) {
       infoTitle.textContent = "Obra no disponible";
